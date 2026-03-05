@@ -1,0 +1,504 @@
+/* ===============================
+   ESTILOS DE LA VISTA HOME (DISEÑO RECUADROS)
+================================== */
+
+.home-container {
+    position: relative;
+    min-height: 100vh;
+    width: 100%;
+    /* Quitamos el fondo sólido rosa para que deje ver la imagen de atrás */
+    background-color: transparent;
+    padding-top: 150px;
+    padding-bottom: 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* 
+  Reintegramos el fondo con la imagen difuminada 
+*/
+.home-background {
+    position: fixed;
+    top: -10px;
+    left: -10px;
+    right: -10px;
+    bottom: -10px;
+    background-image: url('../../images/BackgroundReposteria.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    filter: blur(8px) brightness(0.65);
+    z-index: -1;
+    /* Lo mandamos al fondo absoluto detrás de todo */
+}
+
+/* 
+  Capa superpuesta (Overlay) para darle el tinte cálido 
+*/
+.home-background::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* Gradiente cálido rosa/chocolate transparente */
+    background: linear-gradient(135deg, rgba(255, 107, 139, 0.3) 0%, rgba(74, 44, 53, 0.6) 100%);
+    z-index: 1;
+}
+
+/* Contenedor de las 3 columnas */
+.bento-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    /* Asegura un centrado perfecto sin espacios libres a los lados */
+    padding: 0 1rem;
+    z-index: 2;
+    /* Para que quede encima del fondo */
+}
+
+/* Cada columna maneja sus propias tarjetas de manera vertical */
+.bento-col {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+/* Tarjeta principal que recubre la imagen y la etiqueta */
+.bento-card {
+    background: #fff;
+    border-radius: 20px;
+    /* Bordes redondeados idénticos a los de la referencia */
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 4px 18px rgba(255, 107, 139, 0.1);
+    /* Ligera sombra color rosa */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    height: auto;
+    /* Corregido: Permite que la etiqueta siempre sea visible al fondo de la imagen */
+}
+
+.bento-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(255, 107, 139, 0.2);
+}
+
+/* Imágenes dentro de las tarjetas grandes (Queques, Envíos, etc) */
+.bento-img {
+    width: 100%;
+    object-fit: cover;
+    flex-grow: 1;
+    font-family: 'Quicksand', sans-serif;
+    position: relative;
+    color: transparent;
+    /* Oculta el texto de alt nativo */
+}
+
+/* Imágenes dentro de las tarjetas pequeñitas */
+.bento-mini-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    font-family: 'Quicksand', sans-serif;
+    position: relative;
+    color: transparent;
+    /* Oculta el texto de alt nativo */
+}
+
+/* MAGIA CSS: Estilizar las imágenes rotas o en blanco */
+/* Cuando no hay imagen, dibujamos un recuadro rosado y mostramos su atributo "alt" centrado */
+.bento-img::after,
+.bento-mini-card img::after {
+    content: attr(alt);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #ffe4eb;
+    /* Fondo rosadito pastel hermoso */
+    color: #b55c70;
+    /* Texto rosa oscuro combinando */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.6rem;
+    font-weight: 700;
+    text-align: center;
+    padding: 20px;
+    box-sizing: border-box;
+    z-index: 2;
+    /* Para que tape el borde roto del navegador nativo */
+}
+
+/* Alturas asimétricas para dar el efecto de la imagen */
+.tall-img {
+    height: 520px;
+}
+
+.short-img {
+    height: 320px;
+}
+
+/* Etiqueta inferior rosa de cada recuadro */
+.bento-label {
+    background-color: #cc7f90;
+    /* Rosa polvo/opaco, similar a la foto pero combinando con la página */
+    color: #ffffff;
+    text-align: center;
+    padding: 22px;
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 700;
+    font-size: 1.35rem;
+    letter-spacing: 0.5px;
+}
+
+/* Fila interna para dividir la columna en dos (imágenes pequeñas) */
+.bento-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 25px;
+    flex-grow: 1;
+}
+
+/* Recuadros sin texto (los pequeñitos) */
+.bento-mini-card {
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(255, 107, 139, 0.1);
+    height: 100%;
+    transition: transform 0.3s ease;
+}
+
+.bento-mini-card:hover {
+    transform: scale(1.02);
+}
+
+.bento-mini-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* ===============================
+   SECCIÓN CALL TO ACTION (ENVÍOS)
+================================== */
+.home-cta-section {
+    width: 100%;
+    max-width: 1350px;
+    margin: 80px auto 40px auto;
+    /* Separación desde el grid de fotos */
+    background-color: #ededed;
+    /* El gris suave de su imagen */
+    border-radius: 40px;
+    /* Redondeo amigable */
+    padding: 70px 60px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
+    /* Sombra elegante */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    z-index: 2;
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+/* Efecto hover interactivo en el panel entero */
+.home-cta-section:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 25px 60px rgba(204, 127, 144, 0.25);
+}
+
+/* Animación sutil de fondo (Luz rosada moviéndose) */
+.home-cta-section::before {
+    content: '';
+    position: absolute;
+    right: -100px;
+    top: -100px;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(255, 182, 193, 0.3) 0%, rgba(255, 255, 255, 0) 70%);
+    border-radius: 50%;
+    animation: animateGlow 5s infinite alternate ease-in-out;
+}
+
+@keyframes animateGlow {
+    0% {
+        transform: scale(0.8) translate(0, 0);
+        opacity: 0.5;
+    }
+
+    100% {
+        transform: scale(1.4) translate(-30px, 30px);
+        opacity: 1;
+    }
+}
+
+.cta-content {
+    max-width: 800px;
+    position: relative;
+    z-index: 3;
+    /* Asegurarse de que el texto pase sobre el brillo animado */
+}
+
+.cta-title {
+    font-family: 'Quicksand', sans-serif;
+    font-size: 3.5rem;
+    font-weight: 800;
+    line-height: 1.1;
+    color: #0d0d0d;
+    /* Texto muy oscuro como en la imagen */
+    margin-bottom: 25px;
+    letter-spacing: -1px;
+}
+
+.cta-title span {
+    color: #b55c70;
+    /* Toque pastel de Rosita en vez del negro sólido */
+}
+
+.cta-subtitle {
+    font-family: 'Quicksand', sans-serif;
+    font-size: 1.6rem;
+    color: #333333;
+    margin-bottom: 45px;
+    font-weight: 500;
+}
+
+/* Botón interactivo */
+.cta-btn {
+    background-color: #b55c70;
+    color: #ffffff;
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 800;
+    font-size: 1.15rem;
+    border: none;
+    padding: 20px 45px;
+    border-radius: 50px;
+    /* Estilo píldora */
+    cursor: pointer;
+    box-shadow: 0 6px 20px rgba(181, 92, 112, 0.4);
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+}
+
+.cta-btn:hover {
+    background-color: #cc7f90;
+    transform: translateY(-5px) scale(1.04);
+    box-shadow: 0 12px 30px rgba(181, 92, 112, 0.5);
+}
+
+.cta-btn:active {
+    transform: translateY(2px) scale(0.98);
+    box-shadow: 0 3px 10px rgba(181, 92, 112, 0.4);
+}
+
+/* Contenedor fotográfico cuadrado y llamativo */
+.cta-image-container {
+    width: 380px;
+    height: 380px;
+    border-radius: 35px;
+    /* Más redondeado, estilo app premium */
+    overflow: hidden;
+    position: relative;
+    z-index: 3;
+    flex-shrink: 0;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+    transform: rotate(3deg);
+    /* Leve inclinación juguetona */
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.home-cta-section:hover .cta-image-container {
+    transform: rotate(-2deg) scale(1.03);
+    /* Se Endereza e infla un poco cuando el usuario interactua */
+}
+
+/* Imagen en sí */
+.cta-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    color: transparent;
+    /* Ocultar alt nativo */
+    font-family: 'Quicksand', sans-serif;
+}
+
+/* Magia CSS para cuando tú aún no coloques el URL (Recuadro rosa placeholder) */
+.cta-image::after {
+    content: attr(alt);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #ffe4eb 0%, #fbd1dc 100%);
+    /* Gradiente pastel llamativo */
+    color: #b55c70;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    font-weight: 800;
+    text-align: center;
+    padding: 30px;
+    box-sizing: border-box;
+    z-index: 2;
+    border: 3px dashed #cc7f90;
+    /* Borde punteado divertido */
+    border-radius: 35px;
+}
+
+/* ===============================
+   SECCIÓN MENÚ DE ICONOS
+================================== */
+.home-menu-section {
+    width: 100%;
+    max-width: 1350px;
+    margin: 40px auto 80px auto;
+    background-color: #fdf5f6;
+    /* Recuadro rosa clarito y elegante */
+    border-radius: 40px;
+    /* Redondeo amigable */
+    padding: 70px 60px;
+    box-shadow: 0 15px 40px rgba(204, 127, 144, 0.12);
+    /* Sombra rosada suave */
+}
+
+.menu-header {
+    font-family: 'Quicksand', sans-serif;
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: #1a1a1a;
+    margin-bottom: 40px;
+    text-align: left;
+}
+
+.menu-icon-grid {
+    display: grid;
+    /* Crear recuadros de tamaño fijo responsivamente */
+    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+    gap: 40px 20px;
+    justify-content: center;
+}
+
+.menu-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.menu-item:hover {
+    transform: translateY(-8px);
+}
+
+.menu-icon-box {
+    width: 170px;
+    height: 170px;
+    background-color: #ecc7ce;
+    /* Color rosa pastel polvo de su referencia */
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 18px;
+    color: #1a1a1a;
+    /* Icono negro/oscuro */
+    box-shadow: 0 8px 25px rgba(236, 199, 206, 0.3);
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.menu-item:hover .menu-icon-box {
+    background-color: #e5bdc4;
+    box-shadow: 0 15px 35px rgba(236, 199, 206, 0.5);
+}
+
+.menu-text {
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 700;
+    font-size: 1.2rem;
+    color: #cc7f90;
+    /* Rosa rojizo para las palabras, como en la imagen */
+    max-width: 180px;
+    line-height: 1.3;
+}
+
+
+/* ===============================
+   RESPONSIVO / MÓVIL
+================================== */
+@media screen and (max-width: 992px) {
+    .bento-grid {
+        grid-template-columns: 1fr 1fr;
+        /* 2 columnas en pantallas medianas */
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .bento-grid {
+        grid-template-columns: 1fr;
+        /* 1 sola columna en el celular */
+    }
+
+    .tall-img,
+    .short-img {
+        height: 350px;
+    }
+
+    .home-cta-section,
+    .home-menu-section {
+        margin: 40px 20px;
+        padding: 40px 30px;
+        border-radius: 25px;
+        flex-direction: column-reverse;
+        /* Pasa la imagen arriba del texto en celulares */
+        text-align: center;
+        gap: 30px;
+    }
+
+    .cta-image-container {
+        width: 100%;
+        max-width: 300px;
+        height: 300px;
+        transform: rotate(0);
+        /* Quitamos rotacion en cel */
+    }
+
+    .home-cta-section:hover .cta-image-container {
+        transform: scale(1.02);
+    }
+
+    .cta-title {
+        font-size: 2.2rem;
+    }
+
+    .cta-subtitle {
+        font-size: 1.2rem;
+    }
+
+    .menu-icon-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 30px 15px;
+    }
+
+    .menu-icon-box {
+        width: 140px;
+        height: 140px;
+    }
+
+    .menu-header {
+        font-size: 2rem;
+        text-align: center;
+    }
+}
