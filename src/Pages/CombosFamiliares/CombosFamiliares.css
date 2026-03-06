@@ -1,0 +1,39 @@
+.contenedor_pagina {
+    position: relative;
+    min-height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding-top: 150px;
+}
+
+.contenido_pagina {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 20px 80px 20px;
+    z-index: 2;
+    text-align: center;
+}
+
+.titulo_pagina {
+    font-family: 'Quicksand', sans-serif;
+    font-size: 4rem;
+    color: #4a2c35;
+    margin-bottom: 20px;
+}
+
+.subtitulo_pagina {
+    font-family: 'Quicksand', sans-serif;
+    font-size: 1.5rem;
+    color: #4a2c35;
+    background: rgba(255, 255, 255, 0.4);
+    padding: 10px 20px;
+    border-radius: 20px;
+}
+
+.seccion_carruseles {
+    width: 100%;
+    margin-top: 40px;
+}

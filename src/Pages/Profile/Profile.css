@@ -1,0 +1,243 @@
+/* Estilo Premium para Perfil Actualizado */
+.contenido_perfil {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh;
+    padding: 20px;
+    z-index: 1;
+}
+
+.tarjeta_perfil {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(20px);
+    border: 2px solid rgba(255, 255, 255, 0.8);
+    border-radius: 30px;
+    padding: 50px;
+    width: 100%;
+    max-width: 500px;
+    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    animation: deslizarArriba 0.6s ease-out;
+}
+
+@keyframes deslizarArriba {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.avatar_perfil {
+    width: 100px;
+    height: 100px;
+    background: linear-gradient(135deg, #ff9abd 0%, #b55c70 100%);
+    border-radius: 50%;
+    margin: 0 auto 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 3rem;
+    color: white;
+    font-weight: bold;
+    box-shadow: 0 10px 20px rgba(181, 92, 112, 0.3);
+    border: 4px solid white;
+    overflow: hidden;
+}
+
+.imagen_avatar {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.nombre_perfil {
+    color: #444;
+    font-size: 2rem;
+    margin-bottom: 5px;
+}
+
+.email_perfil {
+    color: #888;
+    font-size: 1.1rem;
+    margin-bottom: 30px;
+}
+
+.info_perfil {
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 20px;
+    padding: 20px;
+    margin-bottom: 30px;
+    text-align: left;
+}
+
+.item_info {
+    margin-bottom: 15px;
+}
+
+.item_info:last-child {
+    margin-bottom: 0;
+}
+
+.item_info span {
+    display: block;
+    color: #b55c70;
+    font-size: 0.9rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.item_info p {
+    color: #333;
+    font-size: 1.1rem;
+    margin: 5px 0 0;
+}
+
+.estado_activo {
+    color: #4CAF50 !important;
+    font-weight: bold;
+}
+
+.acciones_perfil {
+    display: flex;
+    gap: 15px;
+}
+
+.acciones_perfil button {
+    flex: 1;
+    padding: 12px;
+    border-radius: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.boton_editar {
+    background: white;
+    color: #b55c70;
+    border: 2px solid #ffdeed;
+}
+
+.boton_editar:hover {
+    background: #fff5f8;
+    border-color: #ff9abd;
+    transform: translateY(-2px);
+}
+
+.boton_logout {
+    background: #ff4d4d;
+    color: white;
+    border: none;
+    box-shadow: 0 5px 15px rgba(255, 77, 77, 0.3);
+}
+
+.boton_logout:hover {
+    background: #ff3333;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(255, 77, 77, 0.4);
+}
+
+/* Modal */
+.superposicion_modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(8px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.tarjeta_modal {
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(20px);
+    border: 2px solid white;
+    border-radius: 25px;
+    padding: 30px;
+    width: 90%;
+    max-width: 450px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    animation: zoomIn 0.3s ease-out;
+}
+
+@keyframes zoomIn {
+    from {
+        transform: scale(0.9);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.titulo_modal {
+    color: #b55c70;
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.subtitulo_modal {
+    color: #888;
+    font-size: 0.9rem;
+    font-weight: bold;
+    margin: 15px 0 10px;
+    text-transform: uppercase;
+}
+
+.formulario_modal {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.divisor_modal {
+    border: 0;
+    border-top: 1px solid #eee;
+    margin: 10px 0;
+}
+
+.acciones_modal {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.boton_cancelar,
+.boton_guardar {
+    flex: 1;
+    padding: 12px;
+    border-radius: 12px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.boton_cancelar {
+    background: #eee;
+    color: #666;
+    border: none;
+}
+
+.boton_guardar {
+    background: #b55c70;
+    color: white;
+    border: none;
+}
+
+.boton_guardar:hover {
+    background: #a14b5d;
+    transform: translateY(-2px);
+}

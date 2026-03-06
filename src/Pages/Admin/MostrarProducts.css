@@ -1,0 +1,369 @@
+/* ========== LAYOUT PRINCIPAL ========== */
+.envoltura_admin_principal {
+    padding: 110px 30px 50px;
+    max-width: 100%;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+}
+
+.contenedor_admin {
+    flex: 1;
+    padding: 35px 40px;
+    background: rgba(255, 255, 255, 0.65);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border: 2px solid rgba(255, 255, 255, 0.9);
+    border-radius: 28px;
+    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.12);
+}
+
+/* ========== TÍTULO ========== */
+.titulo_admin {
+    color: #b55c70;
+    text-align: center;
+    margin-bottom: 10px;
+    font-size: 2.6rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+    text-shadow: 2px 2px 8px rgba(255, 255, 255, 0.9);
+}
+
+.subtitulo_admin {
+    text-align: center;
+    color: #888;
+    font-size: 1rem;
+    margin-bottom: 28px;
+}
+
+/* ========== SELECTOR DE CATEGORÍA ========== */
+.selector_categoria_admin {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 35px;
+    background: white;
+    padding: 18px 30px;
+    border-radius: 16px;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.07);
+    border: 1px solid rgba(255, 157, 180, 0.3);
+}
+
+.selector_categoria_admin label {
+    font-weight: 700;
+    color: #b55c70;
+    font-size: 1.05rem;
+    white-space: nowrap;
+}
+
+.desplegable_admin {
+    padding: 12px 20px;
+    border-radius: 10px;
+    border: 2px solid #ff9db4;
+    font-size: 1.05rem;
+    outline: none;
+    cursor: pointer;
+    background: linear-gradient(135deg, #fff5f8, #ffffff);
+    color: #4a4a4a;
+    font-weight: 600;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    min-width: 260px;
+}
+
+.desplegable_admin:focus,
+.desplegable_admin:hover {
+    border-color: #e83e8c;
+    box-shadow: 0 0 0 3px rgba(232, 62, 140, 0.15);
+}
+
+/* ========== CONTADOR DE PRODUCTOS ========== */
+.insignia_conteo_admin {
+    background: linear-gradient(135deg, #ff9db4, #e83e8c);
+    color: white;
+    padding: 8px 20px;
+    border-radius: 20px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    box-shadow: 0 3px 10px rgba(232, 62, 140, 0.3);
+    white-space: nowrap;
+}
+
+/* ========== GRID HORIZONTAL DE PRODUCTOS ========== */
+.rejilla_admin {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 22px;
+}
+
+/* ========== TARJETA DE PRODUCTO ========== */
+.tarjeta_admin {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 6px 22px rgba(0, 0, 0, 0.07);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid rgba(255, 157, 180, 0.2);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.tarjeta_admin:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 14px 38px rgba(232, 62, 140, 0.14);
+    border_color: rgba(255, 157, 180, 0.6);
+}
+
+/* ========== IMAGEN DEL PRODUCTO ========== */
+.envoltura_imagen_admin {
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+    background: linear-gradient(135deg, #fff0f5, #ffe6ef);
+    position: relative;
+}
+
+.imagen_producto_admin {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+
+.tarjeta_admin:hover .imagen_producto_admin {
+    transform: scale(1.05);
+}
+
+.marcador_imagen_vacia {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3.5rem;
+    background: linear-gradient(135deg, #fff0f5, #ffd6e0);
+    color: #e83e8c;
+}
+
+/* ========== CUERPO DE LA TARJETA ========== */
+.info_producto_admin {
+    padding: 20px 22px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    gap: 6px;
+}
+
+.cabecera_info_admin {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 6px;
+}
+
+.info_producto_admin h3 {
+    margin: 0;
+    color: #2d2d2d;
+    font-size: 1.25rem;
+    font-weight: 700;
+    line-height: 1.3;
+    flex: 1;
+}
+
+.insignia_id_admin {
+    background: #f0f0f0;
+    color: #888;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    white-space: nowrap;
+    margin_left: 8px;
+}
+
+.texto_detalle_admin {
+    color: #666;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.precio_admin {
+    font-weight: 800;
+    color: #e83e8c;
+    font-size: 1.3rem;
+    margin_top: auto;
+    padding-top: 10px;
+}
+
+/* ========== ACCIONES DE LA TARJETA ========== */
+.acciones_admin {
+    display: flex;
+    gap: 10px;
+    padding: 16px 22px;
+    background: #fafafa;
+    border_top: 1px solid #f0f0f0;
+}
+
+.acciones_admin button {
+    flex: 1;
+    padding: 11px 10px;
+    border: none;
+    border-radius: 10px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    font-size: 0.9rem;
+    letter-spacing: 0.5px;
+}
+
+.boton_editar {
+    background: linear-gradient(135deg, #4da6ff, #3b8ce0);
+    color: white;
+    box-shadow: 0 4px 12px rgba(77, 166, 255, 0.3);
+}
+
+.boton_editar:hover {
+    background: linear-gradient(135deg, #3b8ce0, #2a70c8);
+    box-shadow: 0 6px 18px rgba(77, 166, 255, 0.4);
+    transform: translateY(-1px);
+}
+
+.boton_eliminar {
+    background: linear-gradient(135deg, #ff4d4d, #e63939);
+    color: white;
+    box-shadow: 0 4px 12px rgba(255, 77, 77, 0.3);
+}
+
+.boton_eliminar:hover {
+    background: linear-gradient(135deg, #e63939, #cc2c2c);
+    box-shadow: 0 6px 18px rgba(255, 77, 77, 0.4);
+    transform: translateY(-1px);
+}
+
+.boton_guardar {
+    background: linear-gradient(135deg, #4caf50, #439b46);
+    color: white;
+    box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+}
+
+.boton_guardar:hover {
+    background: linear-gradient(135deg, #439b46, #357a38);
+    box-shadow: 0 6px 18px rgba(76, 175, 80, 0.4);
+    transform: translateY(-1px);
+}
+
+.boton_cancelar {
+    background: linear-gradient(135deg, #9e9e9e, #888);
+    color: white;
+}
+
+.boton_cancelar:hover {
+    background: linear-gradient(135deg, #888, #707070);
+    transform: translateY(-1px);
+}
+
+/* ========== FORMULARIO DE EDICIÓN ========== */
+.formulario_edicion_admin {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 22px;
+    flex: 1;
+}
+
+.formulario_edicion_admin label {
+    font-weight: 700;
+    color: #b55c70;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: -6px;
+}
+
+.formulario_edicion_admin input,
+.formulario_edicion_admin textarea {
+    padding: 11px 14px;
+    border: 2px solid #e8e8e8;
+    border-radius: 10px;
+    font-family: inherit;
+    font-size: 0.95rem;
+    width: 100%;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    background: #fdfdfd;
+    color: #333;
+}
+
+.formulario_edicion_admin input:focus,
+.formulario_edicion_admin textarea:focus {
+    outline: none;
+    border_color: #ff9db4;
+    box-shadow: 0 0 0 3px rgba(255, 157, 180, 0.2);
+    background: #fff;
+}
+
+.formulario_edicion_admin textarea {
+    resize: vertical;
+    min-height: 70px;
+}
+
+/* ========== ESTADO VACÍO ========== */
+.estado_vacio {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 20px;
+    gap: 14px;
+}
+
+.estado_vacio_icono {
+    font-size: 4rem;
+    opacity: 0.5;
+}
+
+.estado_vacio p {
+    color: #aaa;
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+
+/* ========== RESPONSIVE ========== */
+@media (max-width: 1200px) {
+    .rejilla_admin {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 900px) {
+    .rejilla_admin {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .envoltura_admin_principal {
+        padding: 110px 15px 40px;
+    }
+}
+
+@media (max-width: 600px) {
+    .rejilla_admin {
+        grid-template-columns: 1fr;
+    }
+
+    .selector_categoria_admin {
+        flex-direction: column;
+        align-items: stretch;
+        text-align: center;
+    }
+
+    .titulo_admin {
+        font-size: 2rem;
+    }
+}

@@ -1,0 +1,213 @@
+/* Estilo Frutiger Aero para Autenticación Actualizado */
+.contenido_autenticacion {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh;
+    padding: 20px;
+    position: relative;
+    z-index: 1;
+}
+
+/* Carga de Foto */
+.contenedor_carga_foto {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.circulo_previsualizacion_foto {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.8);
+    border: 3px dashed #ff9abd;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+.circulo_previsualizacion_foto:hover {
+    border-color: #b55c70;
+    transform: scale(1.05);
+    background: white;
+}
+
+.circulo_previsualizacion_foto img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.marcador_posicion_foto {
+    width: 100%;
+    height: 100%;
+}
+
+.imagen_marcador {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.texto_carga {
+    font-size: 0.9rem;
+    color: #b55c70;
+    font-weight: 600;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.texto_carga:hover {
+    color: #ff9abd;
+    text-decoration: underline;
+}
+
+.tarjeta_autenticacion {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(15px);
+    border: 2px solid rgba(255, 255, 255, 0.8);
+    border-radius: 25px;
+    padding: 40px;
+    width: 100%;
+    max-width: 450px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1),
+        inset 0 0 15px rgba(255, 255, 255, 0.5);
+    text-align: center;
+    animation: aparecerEscala 0.6s ease-out;
+}
+
+@keyframes aparecerEscala {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.titulo_autenticacion {
+    color: #b55c70;
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+    text-shadow: 0 2px 4px rgba(255, 255, 255, 0.8);
+    font-weight: 800;
+}
+
+.subtitulo_autenticacion {
+    color: #666;
+    margin-bottom: 30px;
+}
+
+.formulario_autenticacion {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.grupo_entrada {
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.grupo_entrada label {
+    color: #b55c70;
+    font-weight: 600;
+    margin-left: 10px;
+}
+
+.grupo_entrada input {
+    background: rgba(255, 255, 255, 0.9);
+    border: 2px solid #ffdeed;
+    border-radius: 15px;
+    padding: 12px 20px;
+    font-size: 1rem;
+    color: #444;
+    transition: all 0.3s ease;
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.grupo_entrada input:focus {
+    outline: none;
+    border-color: #ff9abd;
+    box-shadow: 0 0 15px rgba(255, 154, 189, 0.3), inset 0 2px 5px rgba(0, 0, 0, 0.05);
+    transform: translateY(-2px);
+}
+
+.error_autenticacion {
+    color: #ff4d4d;
+    background: rgba(255, 77, 77, 0.1);
+    padding: 10px;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    margin: 0;
+}
+
+.boton_autenticacion {
+    background: linear-gradient(135deg, #ff9abd 0%, #b55c70 100%);
+    color: white;
+    border: none;
+    padding: 15px;
+    border-radius: 50px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 8px 20px rgba(181, 92, 112, 0.3);
+    margin-top: 10px;
+    position: relative;
+    overflow: hidden;
+}
+
+.boton_autenticacion::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.4) 0%, transparent 70%);
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.boton_autenticacion:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 12px 25px rgba(181, 92, 112, 0.4);
+}
+
+.boton_autenticacion:hover::after {
+    opacity: 1;
+}
+
+.boton_autenticacion:active {
+    transform: translateY(1px);
+}
+
+.pie_autenticacion {
+    margin-top: 25px;
+    color: #666;
+}
+
+.pie_autenticacion a {
+    color: #b55c70;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s;
+}
+
+.pie_autenticacion a:hover {
+    color: #ff9abd;
+    text-decoration: underline;
+}

@@ -19,41 +19,33 @@
    DISEÑO BASE GLOBAL Y CONSTANTES
 ================================== */
 :root {
-    --nav-primary: #ff6b8b;
-    /* Rosa cálido vibrante */
-    --nav-secondary: #ff477e;
-    /* Rosa un poco más intenso para hover */
-    --nav-bg: #fff5f7;
-    /* Fondo muy suave, casi blanco con tono rosa */
-    --nav-text: #4a2c35;
-    --nav-glass: rgba(255, 195, 210, 0.75);
-    /* Rosa cálido dulce pastelería semi-transparente */
-    --nav-glass-border: rgba(255, 107, 139, 0.25);
-
+    --nav_primario: #ff6b8b;
+    --nav_secundario: #ff477e;
+    --nav_fondo: #fff5f7;
+    --nav_texto: #4a2c35;
+    --nav_cristal: rgba(255, 195, 210, 0.75);
+    --nav_cristal_borde: rgba(255, 107, 139, 0.25);
 }
 
-/* Solo afecta al navbar para no romper estilos globales de App */
-.navbar *,
-.navbar *::before,
-.navbar *::after {
+.navegacion *,
+.navegacion *::before,
+.navegacion *::after {
     box-sizing: border-box;
 }
 
 /* ===============================
    CONTENEDOR PRINCIPAL DEL NAVBAR
 ================================== */
-.navbar {
+.navegacion {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 110px;
-    /* Un poco más alto para acomodar el logo gigante */
-    background: var(--nav-glass);
+    background: var(--nav_cristal);
     backdrop-filter: blur(10px);
-    /* Efecto vidrio translúcido */
     -webkit-backdrop-filter: blur(10px);
-    border-bottom: 2px solid var(--nav-glass-border);
+    border-bottom: 2px solid var(--nav_cristal_borde);
     box-shadow: 0 4px 15px rgba(255, 107, 139, 0.1);
     z-index: 999;
     display: flex;
@@ -63,90 +55,77 @@
     background-color: transparent;
 }
 
-.navbar-container {
+.contenedor_navegacion {
     width: 100%;
-    max-width: 1500px;
-    /* Expandimos el límite de ancho para acercar el contenido a los bordes */
+    max-width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 1.5rem;
-    /* Ajuste para un espaciado equilibrado en los extremos */
+    padding: 0 2rem;
 }
 
 /* ===============================
    SECCIÓN IZQUIERDA: LOGO IMAGEN
 ================================== */
-.navbar-logo {
+.logo_navegacion {
     display: flex;
     align-items: center;
 }
 
-.logo-link {
+.enlace_logo {
     display: flex;
     align-items: center;
     gap: 12px;
-    /* Espacio entre el logo circular y el texto */
     text-decoration: none;
-    /* Quitar subrayado del texto */
     transition: transform 0.3s ease;
 }
 
-.logo-link:hover {
+.enlace_logo:hover {
     transform: scale(1.03);
-    /* Ligero aumento al pasar el mouse por el logo */
 }
 
-.logo-img {
+.imagen_logo {
     height: 100px;
     width: 100px;
     border-radius: 50%;
-    /* Rellena todo el círculo forzando a la imagen a ocupar el espacio */
     object-fit: cover;
-    /* Un borde rosa que encierra la imagen */
-    border: 3px solid var(--nav-primary);
+    border: 3px solid var(--nav_primario);
     box-shadow: 0 6px 15px rgba(255, 107, 139, 0.35);
     transition: transform 0.3s ease;
 }
 
-/* --- ESTILOS DE TEXTO DEL LOGO --- */
-.logo-text-container {
+.contenedor_texto_logo {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: flex-end;
-    /* Alinearse a la derecha para acercarse al logo */
     text-align: right;
 }
 
-.logo-title {
+.titulo_logo {
     font-family: 'Quicksand', sans-serif;
     font-size: 1.2rem;
     font-weight: 700;
-    color: var(--nav-text);
-    /* Color oscurito para leer bien */
+    color: var(--nav_texto);
     line-height: 1;
     letter-spacing: 0.5px;
     text-transform: uppercase;
 }
 
-.logo-subtitle {
+.subtitulo_logo {
     font-family: 'Dancing Script', cursive;
     font-size: 2.3rem;
-    /* Letra más grande cursiva para "Rosita" */
-    color: var(--nav-primary);
-    /* Rosa vibrante */
+    color: var(--nav_primario);
     font-weight: 700;
     line-height: 0.9;
     margin-top: 1px;
     text-shadow: 1px 1px 2px rgba(255, 107, 139, 0.2);
-    /* Sombra suave dulce */
 }
 
 /* ===============================
    SECCIÓN CENTRAL: ENLACES
 ================================== */
-.navbar-menu {
+.menu_navegacion {
     display: flex;
     list-style: none;
     gap: 2.5rem;
@@ -154,9 +133,13 @@
     padding: 0;
 }
 
-.nav-link {
+.item_navegacion {
+    position: relative;
+}
+
+.enlace_navegacion {
     text-decoration: none;
-    color: var(--nav-text);
+    color: var(--nav_texto);
     font-size: 1.05rem;
     font-weight: 600;
     letter-spacing: 0.5px;
@@ -165,60 +148,122 @@
     transition: color 0.3s ease;
 }
 
-/* Efecto hover interactivo: Línea inferior animada (Rosa) */
-.nav-link::after {
+.enlace_navegacion::after {
     content: '';
     position: absolute;
     width: 0%;
     height: 3px;
     bottom: -2px;
     left: 0;
-    background-color: var(--nav-primary);
+    background-color: var(--nav_primario);
     border-radius: 2px;
     transition: width 0.3s ease;
 }
 
-.nav-link:hover {
-    color: var(--nav-primary);
+.enlace_navegacion:hover {
+    color: var(--nav_primario);
 }
 
-.nav-link:hover::after {
+.enlace_navegacion:hover::after {
     width: 100%;
+}
+
+/* ===============================
+   DROPDOWN MENU PRODUCTOS
+================================== */
+.desplegable {
+    position: relative;
+}
+
+.activador_desplegable {
+    cursor: pointer;
+}
+
+.menu_desplegable {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--nav_cristal);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid var(--nav_cristal_borde);
+    min-width: 240px;
+    box-shadow: 0 10px 25px rgba(255, 107, 139, 0.2);
+    border-radius: 15px;
+    padding: 12px 0;
+    list-style: none;
+    z-index: 1000;
+    text-align: center;
+}
+
+.desplegable:hover .menu_desplegable {
+    display: block;
+    animation: aparecerDesplegable 0.3s ease;
+}
+
+@keyframes aparecerDesplegable {
+    from {
+        opacity: 0;
+        transform: translate(-50%, 15px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translate(-50%, 0);
+    }
+}
+
+.menu_desplegable li {
+    width: 100%;
+}
+
+.item_desplegable {
+    display: block;
+    padding: 12px 20px;
+    color: var(--nav_texto);
+    text-decoration: none;
+    font-size: 1.05rem;
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 700;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.item_desplegable:hover {
+    background-color: var(--nav_primario);
+    color: #fff;
 }
 
 /* ===============================
    SECCIÓN DERECHA: BOTONES DE ACCIÓN
 ================================== */
-.navbar-actions {
+.acciones_navegacion {
     display: flex;
     gap: 1.2rem;
     align-items: center;
 }
 
-/* Estilo para botón secundario (Iniciar Sesión) */
-.btn-login {
+.boton_login {
     text-decoration: none;
-    color: var(--nav-primary);
-    /* Texto rosa */
+    color: var(--nav_primario);
     font-weight: 700;
     padding: 0.6rem 1.2rem;
-    border: 2px solid var(--nav-primary);
+    border: 2px solid var(--nav_primario);
     border-radius: 25px;
-    /* Bordes muy redondeados */
     transition: all 0.3s ease;
     background-color: transparent;
 }
 
-.btn-login:hover {
-    background-color: var(--nav-primary);
+.boton_login:hover {
+    background-color: var(--nav_primario);
     color: #fff;
     box-shadow: 0 4px 15px rgba(255, 107, 139, 0.3);
 }
 
-/* Estilo para botón principal (Registrarse) */
-.btn-register {
+.boton_registro {
     text-decoration: none;
-    background-color: var(--nav-primary);
+    background-color: var(--nav_primario);
     color: #fff;
     font-weight: 700;
     padding: 0.6rem 1.4rem;
@@ -227,25 +272,39 @@
     transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
 }
 
-.btn-register:hover {
-    background-color: var(--nav-secondary);
+.boton_registro:hover {
+    background-color: var(--nav_secundario);
     transform: translateY(-2px);
     box-shadow: 0 6px 18px rgba(255, 71, 126, 0.5);
 }
 
-/* ===============================
-   RESPONSIVO / MÓVIL
-================================== */
+.boton_salir {
+    background: none;
+    border: 2px solid #ff4d4d;
+    color: #ff4d4d;
+    padding: 0.6rem 1.4rem;
+    border-radius: 25px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.boton_salir:hover {
+    background: #ff4d4d;
+    color: white;
+    box-shadow: 0 4px 12px rgba(255, 77, 77, 0.4);
+}
+
 @media screen and (max-width: 768px) {
-    .navbar-container {
+    .contenedor_navegacion {
         padding: 0 1rem;
     }
 
-    .navbar-menu {
+    .menu_navegacion {
         display: none;
     }
 
-    .navbar-actions {
+    .acciones_navegacion {
         display: none;
     }
 }

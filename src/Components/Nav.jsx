@@ -1,40 +1,71 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import '../Styles/Navbar.css';
 import Logo from '../images/Logo.png';
-
+import '../Styles/Navbar.css';
 
 function Nav() {
+    // Lógica fuera del return
+    const usuario = localStorage.getItem("user");
+    const esAdmin = usuario && (JSON.parse(usuario).rol === "admin" || JSON.parse(usuario).rol === "owner");
+
+    function cerrarSesion() {
+        localStorage.removeItem("user");
+        window.location.href = "/login";
+    }
+
     return (
-        <nav className="navbar">
-            <div className="navbar-container">
-                <div className="navbar-logo">
-                    <Link to="/" className="logo-link">
-                        <div className="logo-text-container">
-                            <span className="logo-title">Repostería</span>
-                            <span className="logo-subtitle">Rosita</span>
+        <nav className="navegacion">
+            <div className="contenedor_navegacion">
+                <div className="logo_navegacion">
+                    <Link to="/" className="enlace_logo">
+                        <div className="contenedor_texto_logo">
+                            <span className="titulo_logo">Repostería</span>
+                            <span className="subtitulo_logo">Rosita</span>
                         </div>
-                        <img src={Logo} alt="PgRosita Logo" className="logo-img" />
+                        <img src={Logo} alt="PgRosita Logo" className="imagen_logo" />
                     </Link>
                 </div>
 
-                {/* Centro: Enlaces principales de navegación */}
-                <ul className="navbar-menu">
-                    <li className="nav-item">
-                        <Link to="/" className="nav-link">Home</Link>
+                <ul className="menu_navegacion">
+                    <li className="item_navegacion">
+                        <Link to="/" className="enlace_navegacion">Home</Link>
                     </li>
-                    <li className="nav-item">
-                        <Link to="/productos" className="nav-link">Productos</Link>
+                    <li className="item_navegacion desplegable">
+                        <span className="enlace_navegacion activador_desplegable">Productos</span>
+                        <ul className="menu_desplegable">
+                            <li><Link to="/queques" className="item_desplegable">Queques</Link></li>
+                            <li><Link to="/combos-familiares" className="item_desplegable">Combos Familiares</Link></li>
+                            <li><Link to="/decoracion-personalizada" className="item_desplegable">Decoración Personalizada</Link></li>
+                            <li><Link to="/especiales-del-mes" className="item_desplegable">Especiales del Mes</Link></li>
+                            <li><Link to="/galletas" className="item_desplegable">Galletas</Link></li>
+                            <li><Link to="/tartas-de-fresa" className="item_desplegable">Tartas de Fresa</Link></li>
+                            <li><Link to="/cupcakes-festivos" className="item_desplegable">Cupcakes Festivos</Link></li>
+                            <li><Link to="/macarons-dulces" className="item_desplegable">Macarons Dulces</Link></li>
+                        </ul>
                     </li>
-                    <li className="nav-item">
-                        <Link to="/perfil" className="nav-link">Perfil</Link>
-                    </li>
+                    {usuario && (
+                        <li className="item_navegacion">
+                            <Link to="/profile" className="enlace_navegacion">Mi Perfil</Link>
+                        </li>
+                    )}
+                    {esAdmin && (
+                        <li className="item_navegacion">
+                            <Link to="/admin" className="enlace_navegacion">Admin</Link>
+                        </li>
+                    )}
                 </ul>
 
-                {/* Lado derecho: Sesión y usuario */}
-                <div className="navbar-actions">
-                    <Link to="/login" className="btn-login">Iniciar Sesión</Link>
-                    <Link to="/registro" className="btn-register">Registrarse</Link>
+                <div className="acciones_navegacion">
+                    {!usuario ? (
+                        <>
+                            <Link to="/login" className="boton_login">Iniciar Sesión</Link>
+                            <Link to="/register" className="boton_registro">Registrarse</Link>
+                        </>
+                    ) : (
+                        <button className="boton_salir" onClick={cerrarSesion}>
+                            Salir
+                        </button>
+                    )}
                 </div>
             </div>
         </nav>

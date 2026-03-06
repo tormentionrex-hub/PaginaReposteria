@@ -1,0 +1,204 @@
+/* ===============================
+   ESTILOS DEL PIE DE PÁGINA
+================================== */
+
+.contenedor_pie {
+    background-color: #b55c70;
+    color: #ffffff;
+    font-family: 'Quicksand', sans-serif;
+    width: 100%;
+    margin-top: auto;
+}
+
+/* ===============================
+   SECCIÓN SUPERIOR
+================================== */
+.parte_superior_pie {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 5%;
+    background-color: #a04f61;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.logo_pie img {
+    height: 70px;
+    width: 70px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #fff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease;
+}
+
+.logo_pie img:hover {
+    transform: scale(1.05);
+}
+
+.contacto_pie {
+    display: flex;
+    gap: 40px;
+    align-items: center;
+}
+
+.item_contacto {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.icono_contacto {
+    width: 24px;
+    height: 24px;
+    fill: #ffb6c1;
+}
+
+.redes_sociales_pie {
+    display: flex;
+    gap: 20px;
+}
+
+.enlace_social {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease;
+}
+
+.enlace_social svg {
+    width: 28px;
+    height: 28px;
+    fill: #ffffff;
+}
+
+.enlace_social:hover {
+    transform: translateY(-3px);
+}
+
+/* ===============================
+   SECCIÓN INFERIOR
+================================== */
+.parte_inferior_pie {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 30px;
+    padding: 50px 5%;
+    background-color: #b55c70;
+}
+
+.columna_pie {
+    display: flex;
+    flex-direction: column;
+}
+
+.titulo_pie {
+    font-size: 1.1rem;
+    font-weight: 800;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.texto_pie {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin: 5px 0;
+    color: #ffdce3;
+}
+
+.enlace_pie {
+    color: #ffdce3;
+    text-decoration: none;
+    font-size: 0.95rem;
+    margin-bottom: 12px;
+    transition: color 0.3s ease, padding_left 0.3s ease;
+    display: flex;
+    align-items: center;
+}
+
+.enlace_pie::before {
+    content: '›';
+    margin-right: 8px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #ffb6c1;
+    transition: margin_right 0.3s ease;
+}
+
+.enlace_pie:hover {
+    color: #ffffff;
+    padding-left: 5px;
+}
+
+.enlace_pie:hover::before {
+    margin-right: 12px;
+}
+
+/* ===============================
+   FORMULARIO BOLETÍN
+================================== */
+.formulario_boletin {
+    display: flex;
+    background: #ffffff;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-top: 10px;
+}
+
+.entrada_boletin {
+    border: none;
+    padding: 12px 15px;
+    width: 100%;
+    font-family: 'Quicksand', sans-serif;
+    font-size: 0.95rem;
+    color: #333;
+    outline: none;
+}
+
+.boton_boletin {
+    background: #ffffff;
+    border: none;
+    padding: 0 15px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-left: 1px solid #eee;
+    transition: background 0.3s ease;
+}
+
+.boton_boletin svg {
+    width: 20px;
+    height: 20px;
+    fill: #ffb6c1;
+}
+
+.boton_boletin:hover {
+    background: #fff5f7;
+}
+
+/* ===============================
+   RESPONSIVO
+================================== */
+@media screen and (max-width: 900px) {
+    .parte_superior_pie {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .contacto_pie {
+        flex-direction: column;
+        gap: 15px;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .parte_inferior_pie {
+        padding: 40px 5%;
+        text-align: left;
+    }
+}

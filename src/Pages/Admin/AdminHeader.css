@@ -1,0 +1,142 @@
+.cabecera_admin {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 80px;
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(20px);
+    border-bottom: 2px solid white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 40px;
+    box-sizing: border-box;
+    z-index: 1100;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+}
+
+.izquierda_cabecera_admin {
+    display: flex;
+    align-items: center;
+    gap: 50px;
+}
+
+.logo_admin {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    cursor: pointer;
+}
+
+.navegacion_admin {
+    display: flex;
+    gap: 30px;
+}
+
+.enlace_navegacion_admin {
+    text-decoration: none;
+    color: #888;
+    font-weight: 600;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    padding: 10px 0;
+    position: relative;
+}
+
+.enlace_navegacion_admin:hover,
+.enlace_navegacion_admin.activo {
+    color: #b55c70;
+}
+
+.enlace_navegacion_admin::after {
+    content: '';
+    position: absolute;
+    bottom: 5px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: #b55c70;
+    transition: width 0.3s ease;
+}
+
+.enlace_navegacion_admin:hover::after,
+.enlace_navegacion_admin.activo::after {
+    width: 100%;
+}
+
+.imagen_logo_admin {
+    height: 52px;
+    width: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 3px 6px rgba(181, 92, 112, 0.25));
+    transition: transform 0.3s ease;
+}
+
+.logo_admin:hover .imagen_logo_admin {
+    transform: scale(1.05);
+}
+
+.texto_logo_admin h4 {
+    margin: 0;
+    color: #b55c70;
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.texto_logo_admin span {
+    font-size: 0.8rem;
+    color: #888;
+}
+
+.derecha_cabecera_admin {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+.info_usuario_admin {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding-right: 30px;
+    border-right: 2px solid rgba(0, 0, 0, 0.05);
+}
+
+.imagen_usuario_admin {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #b55c70;
+}
+
+.texto_usuario_admin p {
+    margin: 0;
+    font-weight: bold;
+    color: #444;
+}
+
+.texto_usuario_admin span {
+    font-size: 0.8rem;
+    color: #b55c70;
+}
+
+.boton_salir_admin {
+    background: #b55c70;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 12px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(181, 92, 112, 0.2);
+}
+
+.boton_salir_admin:hover {
+    background: #a14b5d;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(181, 92, 112, 0.3);
+}
