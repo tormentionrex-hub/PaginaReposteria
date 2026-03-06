@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Nav from '../../Components/Nav';
 import Swal from 'sweetalert2';
-import ServicesUsers from '../../services/ServicesUsers';
+import ServicesUsers from '../../Services/ServicesUsers';
 import './Profile.css';
 
 function Profile() {

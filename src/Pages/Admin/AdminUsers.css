@@ -16,14 +16,15 @@
     padding: 15px;
     text-align: left;
     border-bottom: 1px solid rgba(181, 92, 112, 0.1);
+    color: #000000;
 }
 
 .tabla_usuarios th {
     background: rgba(181, 92, 112, 0.1);
-    color: #b55c70;
-    font-weight: bold;
+    color: #000000;
+    font-weight: 800;
     text-transform: uppercase;
-    font-size: 0.9rem;
+    font-size: 0.95rem;
 }
 
 .avatar_tabla {
@@ -59,7 +60,7 @@
     color: white;
 }
 
-.insignia_rol.user {
+.insignia_rol.cliente {
     background: #eee;
     color: #666;
 }

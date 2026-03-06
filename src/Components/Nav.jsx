@@ -5,8 +5,9 @@ import '../Styles/Navbar.css';
 
 function Nav() {
     // Lógica fuera del return
-    const usuario = localStorage.getItem("user");
-    const esAdmin = usuario && (JSON.parse(usuario).rol === "admin" || JSON.parse(usuario).rol === "owner");
+    const storageUser = localStorage.getItem("user");
+    const userInfo = storageUser ? JSON.parse(storageUser) : null;
+    const esAdmin = userInfo && (userInfo.rol === "admin" || userInfo.rol === "owner");
 
     function cerrarSesion() {
         localStorage.removeItem("user");
@@ -43,7 +44,7 @@ function Nav() {
                             <li><Link to="/macarons-dulces" className="item_desplegable">Macarons Dulces</Link></li>
                         </ul>
                     </li>
-                    {usuario && (
+                    {userInfo && (
                         <li className="item_navegacion">
                             <Link to="/profile" className="enlace_navegacion">Mi Perfil</Link>
                         </li>
@@ -56,15 +57,30 @@ function Nav() {
                 </ul>
 
                 <div className="acciones_navegacion">
-                    {!usuario ? (
+                    {!userInfo ? (
                         <>
                             <Link to="/login" className="boton_login">Iniciar Sesión</Link>
                             <Link to="/register" className="boton_registro">Registrarse</Link>
                         </>
                     ) : (
-                        <button className="boton_salir" onClick={cerrarSesion}>
-                            Salir
-                        </button>
+                        <>
+                            <div className="info_usuario_nav">
+                                <img
+                                    src={userInfo.foto || "https://i.pinimg.com/736x/52/17/11/5217111bf01e03621b31bfd2abbdbb6a.jpg"}
+                                    alt="Usuario"
+                                    className="imagen_usuario_nav"
+                                />
+                                <div className="texto_usuario_nav">
+                                    <p className="nombre_nav">{userInfo.nombre}</p>
+                                    {(userInfo.rol === 'admin' || userInfo.rol === 'owner') && (
+                                        <span className="rol_nav">{userInfo.rol === 'owner' ? 'Propietario' : 'Administrador'}</span>
+                                    )}
+                                </div>
+                            </div>
+                            <button className="boton_salir" onClick={cerrarSesion}>
+                                Salir
+                            </button>
+                        </>
                     )}
                 </div>
             </div>

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Nav from '../../Components/Nav';
 import Fooder from '../../Components/Fooder';
 import ProductCarousel from '../../Components/ProductCarousel';
-import ServiceProducts from '../../services/ServiceProducts';
+import ServiceProducts from '../../Services/ServiceProducts';
 import './TartasDeFresa.css';
 
 function TartasDeFresa() {

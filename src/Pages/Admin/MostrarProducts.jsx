@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
-import ServiceProducts from '../../services/ServiceProducts';
+import ServiceProducts from '../../Services/ServiceProducts';
 import AdminHeader from './AdminHeader';
 import './MostrarProducts.css';
 
@@ -37,7 +37,7 @@ function MostrarProducts() {
             swalRosita.fire({
                 icon: 'warning',
                 title: 'Campos requeridos',
-                text: 'Por favor completa el nombre, detalle y precio.',
+                text: 'No se permiten datos vacíos ni espacios en blanco. Completa nombre, detalle y precio.',
                 confirmButtonText: 'Entendido',
             });
             return;

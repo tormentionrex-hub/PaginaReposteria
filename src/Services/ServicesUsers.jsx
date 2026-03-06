@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const URL_API = "http://localhost:3000/usuarios";
+const URL_API = "http://localhost:3001/usuarios";
 
 const ServicesUsers = {
     // Obtener todos los usuarios (para validar login o ver perfiles)

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import ServicesUsers from '../../services/ServicesUsers';
+import ServicesUsers from '../../Services/ServicesUsers';
 import AdminHeader from './AdminHeader';
 import Swal from 'sweetalert2';
 import './AdminUsers.css';
@@ -43,7 +43,7 @@ function AdminUsers() {
             swalRosita.fire({ icon: 'error', title: 'No permitido', text: 'No puedes cambiar el rol del Owner.' });
             return;
         }
-        const nuevoRol = usuario.rol === 'admin' ? 'user' : 'admin';
+        const nuevoRol = usuario.rol === 'admin' ? 'cliente' : 'admin';
         const result = await swalRosita.fire({
             icon: 'question',
             title: '¿Cambiar rol?',
@@ -125,8 +125,31 @@ function AdminUsers() {
     async function handleGuardarEdicion(e) {
         e.preventDefault();
         if (!editNombre.trim() || !editEmail.trim()) {
-            setEditError('Nombre y correo son obligatorios.');
+            swalRosita.fire({
+                icon: 'error',
+                title: 'Campos vacíos',
+                text: 'No se permiten datos vacíos ni espacios en blanco en nombre y correo.'
+            });
             return;
+        }
+
+        if (editPassword.trim()) {
+            if (editPassword.trim().length < 8) {
+                swalRosita.fire({
+                    icon: 'error',
+                    title: 'Contraseña muy corta',
+                    text: 'La contraseña debe tener un mínimo de 8 caracteres.'
+                });
+                return;
+            }
+            if (editPassword.includes('-')) {
+                swalRosita.fire({
+                    icon: 'error',
+                    title: 'Contraseña inválida',
+                    text: 'No se permiten números negativos en la contraseña.'
+                });
+                return;
+            }
         }
 
         const emailDuplicado = usuarios.find(u => u.email === editEmail && u.id !== usuarioAEditar.id);
@@ -158,8 +181,8 @@ function AdminUsers() {
     }
 
     function puedeEditar(u) {
-        if (usuarioActual?.rol === 'owner') return u.rol !== 'owner' || u.id === usuarioActual.id;
-        if (usuarioActual?.rol === 'admin') return u.rol === 'user';
+        if (usuarioActual?.rol === 'owner') return u.rol !== 'owner' || u.id === usuarioActual.id; //aqui se permita realizar el patch para que el administrador pueda editar su propio perfil
+        if (usuarioActual?.rol === 'admin') return u.rol === 'cliente';
         return false;
     }
 
@@ -195,7 +218,7 @@ function AdminUsers() {
                                         <td>{u.email}</td>
                                         <td>
                                             <span className={`insignia_rol ${u.rol}`}>
-                                                {u.rol === 'owner' ? 'Owner' : u.rol === 'admin' ? 'Admin' : 'Usuario'}
+                                                {u.rol === 'owner' ? 'Owner' : u.rol === 'admin' ? 'Admin' : 'Cliente'}
                                             </span>
                                         </td>
                                         <td>
@@ -208,7 +231,7 @@ function AdminUsers() {
                                                 {puedeEditar(u) && (
                                                     <button onClick={() => handleAbrirEdicion(u)} className="boton_editar_usuario">Editar</button>
                                                 )}
-                                                {(usuarioActual?.rol === 'owner' ? u.rol !== 'owner' : u.rol === 'user') && (
+                                                {(usuarioActual?.rol === 'owner' ? u.rol !== 'owner' : u.rol === 'cliente') && (
                                                     <button onClick={() => handleEliminarUsuario(u.id)} className="boton_eliminar_usuario">Eliminar</button>
                                                 )}
                                             </div>
@@ -255,7 +278,7 @@ function AdminUsers() {
                             <div className="fila_info_usuario">
                                 <span className="etiqueta_info_usuario">Rol actual:</span>
                                 <span className={`insignia_rol ${usuarioAEditar.rol}`}>
-                                    {usuarioAEditar.rol === 'owner' ? 'Owner' : usuarioAEditar.rol === 'admin' ? 'Admin' : 'Usuario'}
+                                    {usuarioAEditar.rol === 'owner' ? 'Owner' : usuarioAEditar.rol === 'admin' ? 'Admin' : 'Cliente'}
                                 </span>
                             </div>
 

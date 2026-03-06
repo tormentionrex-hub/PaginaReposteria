@@ -1,13 +1,10 @@
 import axios from "axios";
 
 // Definimos la URL de nuestra base de datos local (json-server)
-const URL_API = "http://localhost:3000";
+const URL_API = "http://localhost:3001";
 
 const ServiceProducts = {
-    // --------------------------------------------------------------------------
-    // OBTENER PRODUCTOS POR CATEGORÍA
-    // (Ejemplo: categoria puede ser "productos_queques", "productos_tartasDeFresa")
-    // --------------------------------------------------------------------------
+    // obtener productos por categoria
     getProductos: async (categoria) => {
         try {
             const response = await axios.get(`${URL_API}/${categoria}`);
@@ -18,9 +15,7 @@ const ServiceProducts = {
         }
     },
 
-    // --------------------------------------------------------------------------
-    // CREAR UN NUEVO PRODUCTO EN UNA CATEGORÍA ESPECÍFICA
-    // --------------------------------------------------------------------------
+     // crear productos en una categoria especifica
     postProductos: async (categoria, objProducto) => {
         try {
             const response = await axios.post(`${URL_API}/${categoria}`, objProducto);
@@ -31,9 +26,7 @@ const ServiceProducts = {
         }
     },
 
-    // --------------------------------------------------------------------------
-    // EDITAR UN PRODUCTO EXISTENTE (Usando PATCH obligatoriamente)
-    // --------------------------------------------------------------------------
+    // editar un producto existente
     patchProductos: async (categoria, objProducto, id) => {
         try {
             const response = await axios.patch(`${URL_API}/${categoria}/${id}`, objProducto);
@@ -44,9 +37,7 @@ const ServiceProducts = {
         }
     },
 
-    // --------------------------------------------------------------------------
-    // ELIMINAR UN PRODUCTO DE UNA CATEGORÍA ESPECÍFICA
-    // --------------------------------------------------------------------------
+    // eliminar un producto de una categoria especifica
     deleteProductos: async (categoria, id) => {
         try {
             const response = await axios.delete(`${URL_API}/${categoria}/${id}`);

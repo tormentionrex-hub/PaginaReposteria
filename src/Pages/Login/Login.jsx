@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import Swal from 'sweetalert2';
-import ServicesUsers from '../../services/ServicesUsers';
+import ServicesUsers from '../../Services/ServicesUsers';
 import Nav from '../../Components/Nav';
 import Fooder from '../../Components/Fooder';
 import '../Register/Register.css';
@@ -18,8 +18,12 @@ function Login() {
         e.preventDefault();
         setError("");
 
-        if (!email || !password) {
-            setError("Por favor, ingresa tus credenciales.");
+        if (!email.trim() || !password.trim()) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Campos vacíos',
+                text: 'No se permiten datos vacíos ni espacios en blanco.',
+            });
             return;
         }
 
@@ -35,7 +39,12 @@ function Login() {
                     timer: 1500,
                     showConfirmButton: false
                 });
-                navigate('/');
+
+                if (usuarioEncontrado.rol === 'admin' || usuarioEncontrado.rol === 'owner') {
+                    navigate('/admin');
+                } else {
+                    navigate('/profile');
+                }
             } else {
                 setError("Correo o contraseña incorrectos.");
             }

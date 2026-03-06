@@ -44,8 +44,8 @@
 .tarjeta_estadistica {
     flex: 1;
     min-width: 100px;
-    background: rgba(255, 255, 255, 0.07);
-    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: rgba(255, 255, 255, 0.5);
+    border: 1px solid rgba(181, 92, 112, 0.3);
     border-radius: 14px;
     padding: 16px 18px;
     text-align: center;
@@ -59,72 +59,72 @@
 
 .numero_estadistica {
     display: block;
-    font-size: 2rem;
+    font-size: 2.2rem;
     font-weight: 800;
-    color: #fff;
+    color: #b55c70;
     line-height: 1;
 }
 
 .etiqueta_estadistica {
     display: block;
-    font-size: 0.82rem;
-    color: rgba(255, 255, 255, 0.85);
+    font-size: 0.85rem;
+    color: #8b2e46;
     margin-top: 5px;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    font-weight: 700;
+    font-weight: 800;
 }
 
 .tarjeta_pendiente {
-    border-color: rgba(255, 193, 7, 0.4);
-    background: rgba(255, 193, 7, 0.07);
+    border-color: rgba(245, 158, 11, 0.4);
+    background: rgba(255, 251, 235, 0.8);
 }
 
 .tarjeta_pendiente .numero_estadistica {
-    color: #ffc107;
+    color: #d97706;
 }
 
 .tarjeta_pendiente .etiqueta_estadistica {
-    color: #ffd54f;
+    color: #b45309;
 }
 
 .tarjeta_proceso {
-    border-color: rgba(33, 150, 243, 0.4);
-    background: rgba(33, 150, 243, 0.07);
+    border-color: rgba(59, 130, 246, 0.4);
+    background: rgba(239, 246, 255, 0.8);
 }
 
 .tarjeta_proceso .numero_estadistica {
-    color: #42a5f5;
+    color: #2563eb;
 }
 
 .tarjeta_proceso .etiqueta_estadistica {
-    color: #90caf9;
+    color: #1e40af;
 }
 
 .tarjeta_listo {
-    border-color: rgba(76, 175, 80, 0.4);
-    background: rgba(76, 175, 80, 0.07);
+    border-color: rgba(16, 185, 129, 0.4);
+    background: rgba(236, 253, 245, 0.8);
 }
 
 .tarjeta_listo .numero_estadistica {
-    color: #66bb6a;
+    color: #059669;
 }
 
 .tarjeta_listo .etiqueta_estadistica {
-    color: #a5d6a7;
+    color: #065f46;
 }
 
 .tarjeta_entregado {
-    border-color: rgba(156, 39, 176, 0.4);
-    background: rgba(156, 39, 176, 0.07);
+    border-color: rgba(139, 92, 246, 0.4);
+    background: rgba(245, 243, 255, 0.8);
 }
 
 .tarjeta_entregado .numero_estadistica {
-    color: #ab47bc;
+    color: #7c3aed;
 }
 
 .tarjeta_entregado .etiqueta_estadistica {
-    color: #ce93d8;
+    color: #5b21b6;
 }
 
 /* ── Filtros ── */
@@ -138,10 +138,11 @@
 .buscador_pedidos {
     width: 100%;
     padding: 12px 18px;
-    background: rgba(255, 255, 255, 0.06);
-    border: 1px solid rgba(255, 255, 255, 0.15);
+    background: rgba(255, 255, 255, 0.5);
+    border: 1px solid rgba(181, 92, 112, 0.3);
     border-radius: 12px;
-    color: #fff;
+    color: #8b2e46;
+    font-weight: 600;
     font-size: 0.95rem;
     outline: none;
     transition: border-color 0.2s;
@@ -149,7 +150,7 @@
 }
 
 .buscador_pedidos::placeholder {
-    color: rgba(255, 255, 255, 0.4);
+    color: rgba(181, 92, 112, 0.6);
 }
 
 .buscador_pedidos:focus {
@@ -172,11 +173,11 @@
 .pestana_filtro {
     padding: 7px 16px;
     border-radius: 20px;
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    background: rgba(255, 255, 255, 0.05);
-    color: rgba(255, 255, 255, 0.7);
+    border: 1px solid rgba(181, 92, 112, 0.3);
+    background: rgba(255, 255, 255, 0.5);
+    color: #b55c70;
     font-size: 0.85rem;
-    font-weight: 700;
+    font-weight: 800;
     cursor: pointer;
     transition: all 0.2s;
     display: flex;
@@ -189,7 +190,7 @@
 .pestana_filtro:hover {
     background: rgba(181, 92, 112, 0.2);
     border-color: #b55c70;
-    color: #fff;
+    color: #8b2e46;
 }
 
 .pestana_activa {
@@ -200,11 +201,12 @@
 }
 
 .contador_pestana {
-    background: rgba(255, 255, 255, 0.25);
+    background: rgba(255, 255, 255, 0.6);
     border-radius: 10px;
     padding: 1px 7px;
     font-size: 0.75rem;
     font-weight: 700;
+    color: #b55c70;
 }
 
 /* ── Área de contenido ── */
@@ -277,16 +279,16 @@
 .tabla_pedidos th {
     padding: 14px 14px;
     text-align: left;
-    font-size: 0.78rem;
+    font-size: 0.85rem;
     text-transform: uppercase;
     letter-spacing: 0.06em;
-    color: #e88fa0;
-    font-weight: 700;
+    color: #b55c70;
+    font-weight: 800;
     white-space: nowrap;
 }
 
 .fila_pedido {
-    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    border-bottom: 2px solid rgba(181, 92, 112, 0.15);
     transition: background 0.15s;
     cursor: pointer;
 }
@@ -297,14 +299,16 @@
 
 .tabla_pedidos td {
     padding: 12px 14px;
-    font-size: 0.88rem;
-    color: rgba(255, 255, 255, 0.85);
+    font-size: 0.95rem;
+    color: #8b2e46;
+    font-weight: 600;
     vertical-align: middle;
 }
 
 .celda_id {
-    color: rgba(255, 255, 255, 0.4);
-    font-size: 0.8rem;
+    color: #b55c70;
+    font-size: 0.85rem;
+    font-weight: 700;
 }
 
 .info_producto {
@@ -334,8 +338,8 @@
 }
 
 .info_cliente small {
-    color: rgba(255, 255, 255, 0.45);
-    font-size: 0.76rem;
+    color: #b55c70;
+    font-size: 0.85rem;
 }
 
 .celda_opciones span {
@@ -343,24 +347,25 @@
 }
 
 .celda_opciones small {
-    color: rgba(255, 255, 255, 0.5);
-    font-size: 0.76rem;
+    color: #b55c70;
+    font-size: 0.85rem;
 }
 
 .celda_cantidad {
-    font-weight: 700;
-    color: #fff;
+    font-weight: 800;
+    color: #b55c70;
     text-align: center;
 }
 
 .celda_precio {
-    color: #66bb6a;
-    font-weight: 600;
+    color: #388e3c;
+    font-weight: 700;
 }
 
 .celda_fecha {
-    font-size: 0.8rem;
-    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.85rem;
+    color: #b55c70;
+    font-weight: 600;
     white-space: nowrap;
 }
 
@@ -385,33 +390,33 @@
 }
 
 .badge_pendiente {
-    background: rgba(255, 193, 7, 0.15);
-    border-color: rgba(255, 193, 7, 0.4);
-    color: #ffc107;
+    background: #ffecb3;
+    border-color: #ffb300;
+    color: #b45309;
 }
 
 .badge_proceso {
-    background: rgba(33, 150, 243, 0.15);
-    border-color: rgba(33, 150, 243, 0.4);
-    color: #42a5f5;
+    background: #e0f2fe;
+    border-color: #7dd3fc;
+    color: #0369a1;
 }
 
 .badge_listo {
-    background: rgba(76, 175, 80, 0.15);
-    border-color: rgba(76, 175, 80, 0.4);
-    color: #66bb6a;
+    background: #dcfce7;
+    border-color: #86efac;
+    color: #15803d;
 }
 
 .badge_entregado {
-    background: rgba(156, 39, 176, 0.15);
-    border-color: rgba(156, 39, 176, 0.4);
-    color: #ab47bc;
+    background: #f3e8ff;
+    border-color: #d8b4fe;
+    color: #7e22ce;
 }
 
 .badge_cancelado {
-    background: rgba(244, 67, 54, 0.15);
-    border-color: rgba(244, 67, 54, 0.4);
-    color: #ef5350;
+    background: #fee2e2;
+    border-color: #fca5a5;
+    color: #b91c1c;
 }
 
 /* ── Acciones ── */
@@ -424,7 +429,7 @@
 .boton_ver_detalle,
 .boton_eliminar_pedido {
     background: none;
-    border: 1px solid rgba(255, 255, 255, 0.15);
+    border: 2px solid;
     border-radius: 8px;
     padding: 6px 10px;
     font-size: 1rem;
@@ -432,21 +437,34 @@
     transition: all 0.2s;
 }
 
+.boton_ver_detalle {
+    border-color: rgba(33, 150, 243, 0.6);
+    color: #0284c7;
+}
+
+.boton_eliminar_pedido {
+    border-color: rgba(244, 67, 54, 0.6);
+    color: #e11d48;
+}
+
 .boton_ver_detalle:hover {
-    background: rgba(33, 150, 243, 0.2);
-    border-color: #42a5f5;
+    background: #e0f2fe;
+    border-color: #0284c7;
+    color: #0369a1;
 }
 
 .boton_eliminar_pedido:hover {
-    background: rgba(244, 67, 54, 0.2);
-    border-color: #ef5350;
+    background: #fee2e2;
+    border-color: #e11d48;
+    color: #be123c;
 }
 
 .etiqueta_conteo {
     text-align: right;
     margin-top: 12px;
     font-size: 0.8rem;
-    color: rgba(255, 255, 255, 0.35);
+    color: #b55c70;
+    font-weight: 600;
 }
 
 /* ── MODAL ── */
@@ -480,10 +498,12 @@
     padding: 32px;
     width: 100%;
     max-width: 600px;
-    max-height: 90vh;
+    max-height: 80vh;
     overflow-y: auto;
     position: relative;
+    box-sizing: border-box;
     box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6);
+    margin: auto;
     animation: deslizarArriba 0.25s ease;
 }
 
@@ -497,6 +517,26 @@
         transform: translateY(0);
         opacity: 1;
     }
+}
+
+/* Custom Scrollbar para la ventana modal */
+.ventana_modal::-webkit-scrollbar {
+    width: 8px;
+}
+
+.ventana_modal::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    margin: 10px 0;
+}
+
+.ventana_modal::-webkit-scrollbar-thumb {
+    background: #b55c70;
+    border-radius: 8px;
+}
+
+.ventana_modal::-webkit-scrollbar-thumb:hover {
+    background: #e88fa0;
 }
 
 .cerrar_modal {

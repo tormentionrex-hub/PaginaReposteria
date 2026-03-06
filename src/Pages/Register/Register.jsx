@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import Swal from 'sweetalert2';
-import ServicesUsers from '../../services/ServicesUsers';
+import ServicesUsers from '../../Services/ServicesUsers';
 import Nav from '../../Components/Nav';
 import Fooder from '../../Components/Fooder';
 import './Register.css';
@@ -39,8 +39,30 @@ function Register() {
         e.preventDefault();
         setError("");
 
-        if (!nombre || !email || !password) {
-            setError("Por favor, completa todos los campos.");
+        if (!nombre.trim() || !email.trim() || !password.trim()) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Campos vacíos',
+                text: 'No se permiten datos vacíos ni espacios en blanco.',
+            });
+            return;
+        }
+
+        if (password.trim().length < 8) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Contraseña muy corta',
+                text: 'La contraseña debe tener un mínimo de 8 caracteres.',
+            });
+            return;
+        }
+
+        if (password.includes('-')) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Contraseña inválida',
+                text: 'No se permiten números negativos en la contraseña.',
+            });
             return;
         }
 
@@ -56,7 +78,7 @@ function Register() {
                 email,
                 password,
                 foto: foto || "",
-                rol: "user"
+                rol: "cliente"
             };
 
             await ServicesUsers.postUser(nuevoUsuario);

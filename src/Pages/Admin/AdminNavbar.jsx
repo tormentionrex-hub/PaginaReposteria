@@ -9,17 +9,17 @@ function AdminNavbar() {
             <ul className="admin-nav-list">
                 <li>
                     <NavLink to="/admin" end className={({ isActive }) => isActive ? "admin-nav-item active" : "admin-nav-item"}>
-                        📦 Productos
+                        Productos
                     </NavLink>
                 </li>
                 <li>
                     <NavLink to="/admin/users" className={({ isActive }) => isActive ? "admin-nav-item active" : "admin-nav-item"}>
-                        👥 Usuarios
+                        Usuarios
                     </NavLink>
                 </li>
                 <li>
                     <NavLink to="/admin/orders" className={({ isActive }) => isActive ? "admin-nav-item active" : "admin-nav-item"}>
-                        🛒 Pedidos
+                     Pedidos
                     </NavLink>
                 </li>
             </ul>
