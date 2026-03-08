@@ -74,7 +74,7 @@ function Register() {
             }
 
             const nuevoUsuario = {
-                nombre,
+                name: nombre,
                 email,
                 password,
                 foto: foto || "",

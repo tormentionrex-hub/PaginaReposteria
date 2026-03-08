@@ -18,15 +18,57 @@
     box-shadow: 0 15px 50px rgba(0, 0, 0, 0.12);
 }
 
-/* ========== TÍTULO ========== */
+/* ========== CABECERA DE SECCIÓN ========== */
+.cabecera_seccion_admin {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
 .titulo_admin {
     color: #b55c70;
-    text-align: center;
-    margin-bottom: 10px;
+    margin: 0;
     font-size: 2.6rem;
     font-weight: 800;
     letter-spacing: 1px;
     text-shadow: 2px 2px 8px rgba(255, 255, 255, 0.9);
+}
+
+.boton_añadir_producto {
+    background: linear-gradient(135deg, #ff8da1, #b55c70);
+    color: white;
+    border: none;
+    padding: 14px 28px;
+    border-radius: 14px;
+    font-weight: 800;
+    font-size: 1.1rem;
+    cursor: pointer;
+    box-shadow: 0 8px 20px rgba(181, 92, 112, 0.3);
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.boton_añadir_producto:hover {
+    transform: scale(1.05) translateY(-3px);
+    box-shadow: 0 12px 28px rgba(181, 92, 112, 0.4);
+    filter: brightness(1.1);
+}
+
+.tarjeta_creacion {
+    border: 3px dashed #ff9db4 !important;
+    background: #fff9fa !important;
+}
+
+.tarjeta_creacion h3 {
+    color: #b55c70;
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 1.4rem;
 }
 
 .subtitulo_admin {
@@ -111,7 +153,7 @@
 .tarjeta_admin:hover {
     transform: translateY(-6px);
     box-shadow: 0 14px 38px rgba(232, 62, 140, 0.14);
-    border_color: rgba(255, 157, 180, 0.6);
+    border-color: rgba(255, 157, 180, 0.6);
 }
 
 /* ========== IMAGEN DEL PRODUCTO ========== */
@@ -170,6 +212,24 @@
     flex: 1;
 }
 
+.cabecera_info_admin h3 {
+    margin: 0;
+    font-size: 1.1rem;
+    color: #b55c70;
+}
+
+.sub_badge_admin {
+    display: inline-block;
+    padding: 0.2rem 0.6rem;
+    background: rgba(255, 228, 235, 0.5);
+    color: #b55c70;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    border: 1px solid rgba(181, 92, 112, 0.2);
+}
+
 .insignia_id_admin {
     background: #f0f0f0;
     color: #888;
@@ -178,7 +238,7 @@
     font-size: 0.75rem;
     font-weight: 600;
     white-space: nowrap;
-    margin_left: 8px;
+    margin-left: 8px;
 }
 
 .texto_detalle_admin {
@@ -197,7 +257,7 @@
     font-weight: 800;
     color: #e83e8c;
     font-size: 1.3rem;
-    margin_top: auto;
+    margin-top: auto;
     padding-top: 10px;
 }
 
@@ -207,7 +267,7 @@
     gap: 10px;
     padding: 16px 22px;
     background: #fafafa;
-    border_top: 1px solid #f0f0f0;
+    border-top: 1px solid #f0f0f0;
 }
 
 .acciones_admin button {
@@ -303,7 +363,7 @@
 .formulario_edicion_admin input:focus,
 .formulario_edicion_admin textarea:focus {
     outline: none;
-    border_color: #ff9db4;
+    border-color: #ff9db4;
     box-shadow: 0 0 0 3px rgba(255, 157, 180, 0.2);
     background: #fff;
 }

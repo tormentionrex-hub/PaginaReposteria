@@ -31,6 +31,12 @@ function AdminHeader() {
                     <NavLink to="/admin" end className={({ isActive }) => isActive ? "enlace_navegacion_admin activo" : "enlace_navegacion_admin"}>
                         Productos
                     </NavLink>
+                    <NavLink to="/admin/offers" className={({ isActive }) => isActive ? "enlace_navegacion_admin activo" : "enlace_navegacion_admin"}>
+                        Ofertas
+                    </NavLink>
+                    <NavLink to="/admin/flavors" className={({ isActive }) => isActive ? "enlace_navegacion_admin activo" : "enlace_navegacion_admin"}>
+                        Sabores
+                    </NavLink>
                     <NavLink to="/admin/users" className={({ isActive }) => isActive ? "enlace_navegacion_admin activo" : "enlace_navegacion_admin"}>
                         Usuarios
                     </NavLink>
@@ -48,7 +54,7 @@ function AdminHeader() {
                         className="imagen_usuario_admin"
                     />
                     <div className="texto_usuario_admin">
-                        <p>{user.nombre || 'Administrador'}</p>
+                        <p>{user.name || 'Administrador'}</p>
                         <span>{user.rol === 'owner' ? 'Propietario' : 'Administrador'}</span>
                     </div>
                 </div>

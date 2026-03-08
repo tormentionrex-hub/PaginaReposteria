@@ -369,54 +369,55 @@
     white-space: nowrap;
 }
 
-/* ── Selectores de estado ── */
-.selector_estado {
-    padding: 5px 10px;
-    border-radius: 20px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    background: rgba(255, 255, 255, 0.08);
-    color: #fff;
-    font-size: 0.78rem;
-    font-weight: 600;
+/* ── Status Badges & Selectors ── */
+.badge_estado_admin {
+    padding: 6px 16px;
+    border-radius: 12px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    border: 2px solid transparent;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     cursor: pointer;
+    min-width: 110px;
     outline: none;
-    appearance: none;
-    text-align: center;
 }
 
-.selector_estado option {
-    background: #2a1a22;
-    color: #fff;
+.badge_estado_admin:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 
 .badge_pendiente {
-    background: #ffecb3;
+    background: #fff8e1;
     border-color: #ffb300;
     color: #b45309;
 }
 
 .badge_proceso {
-    background: #e0f2fe;
-    border-color: #7dd3fc;
-    color: #0369a1;
+    background: #e1f5fe;
+    border-color: #03a9f4;
+    color: #01579b;
 }
 
 .badge_listo {
-    background: #dcfce7;
-    border-color: #86efac;
-    color: #15803d;
+    background: #f1f8e9;
+    border-color: #7cb342;
+    color: #33691e;
 }
 
 .badge_entregado {
-    background: #f3e8ff;
-    border-color: #d8b4fe;
-    color: #7e22ce;
+    background: #f3e5f5;
+    border-color: #9c27b0;
+    color: #4a148c;
 }
 
 .badge_cancelado {
-    background: #fee2e2;
-    border-color: #fca5a5;
-    color: #b91c1c;
+    background: #ffebee;
+    border-color: #f44336;
+    color: #b71c1c;
 }
 
 /* ── Acciones ── */

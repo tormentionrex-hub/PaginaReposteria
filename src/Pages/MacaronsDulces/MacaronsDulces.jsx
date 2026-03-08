@@ -26,7 +26,7 @@ function MacaronsDulces() {
     }
 
     function obtenerFrutas() {
-        return productos.filter(p => p.subcategoria === "Frambuesa y Frutas");
+        return productos.filter(p => p.subcategoria === "Frambuesa y Frutos");
     }
 
     function obtenerCajas() {
@@ -35,10 +35,10 @@ function MacaronsDulces() {
 
     function adaptarData(arr) {
         return arr.map(item => ({
-            name: item.producto,
-            desc: item.detalle,
-            price: item.precio,
-            image: item.img || `https://via.placeholder.com/280x200/ffe4eb/b55c70?text=${encodeURIComponent(item.producto)}`
+            ...item,
+            image: item.img_Url || "",
+            price: `₡${item.precio}`,
+            desc: item.detalle
         }));
     }
 
@@ -53,7 +53,7 @@ function MacaronsDulces() {
                 <div className="seccion_carruseles">
                     <ProductCarousel title="Clásicos de Vainilla" items={adaptarData(obtenerVainilla())} />
                     <ProductCarousel title="Favoritos de Pistacho" items={adaptarData(obtenerPistacho())} />
-                    <ProductCarousel title="Frambuesa y Frutas" items={adaptarData(obtenerFrutas())} />
+                    <ProductCarousel title="Frambuesa y Frutos" items={adaptarData(obtenerFrutas())} />
                     <ProductCarousel title="Cajas de Regalo" items={adaptarData(obtenerCajas())} />
                 </div>
             </div>

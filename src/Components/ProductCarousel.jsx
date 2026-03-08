@@ -4,7 +4,6 @@ import '../Styles/ProductCarousel.css';
 
 function ProductCarousel({ title, items, categoria }) {
     const navigate = useNavigate();
-    const itemsDuplicados = [...items, ...items];
 
     function verDetalle(item) {
         navigate('/producto', {
@@ -20,9 +19,9 @@ function ProductCarousel({ title, items, categoria }) {
     return (
         <div className="envoltura_carrusel">
             {title && <h2 className="titulo_carrusel">{title}</h2>}
-            <div className="contenedor_carrusel">
+            <div className={`contenedor_carrusel ${items.length > 4 ? 'con_animacion' : ''}`}>
                 <div className="pista_carrusel">
-                    {itemsDuplicados.map((item, index) => (
+                    {items.map((item, index) => (
                         <div
                             className="tarjeta_carrusel"
                             key={index}

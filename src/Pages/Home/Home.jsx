@@ -71,9 +71,9 @@ function Home() {
                     <p className="subtitulo_anuncio">
                         Ya disponible para lugares fuera del GAM
                     </p>
-                    <button className="boton_anuncio">
+                    <Link to="/queques" className="boton_anuncio">
                         ¡PEDIR YA!
-                    </button>
+                    </Link>
                 </div>
                 <div className="imagen_contenedor_anuncio">
                     <img src={enviosImg} alt="Envíos por Correos" className="imagen_anuncio" />

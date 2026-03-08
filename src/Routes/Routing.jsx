@@ -15,13 +15,18 @@ import MostrarProducts from "../Pages/Admin/MostrarProducts"
 import AdminUsers from "../Pages/Admin/AdminUsers"
 import AdminOrders from "../Pages/Admin/AdminOrders"
 import Profile from "../Pages/Profile/Profile"
+import Ordenes from "../Pages/Ordenes/Ordenes"
 import ProductoDetalle from "../Pages/ProductoDetalle/ProductoDetalle"
+import Ofertas from "../Pages/Ofertas/Ofertas"
+import Sabores from "../Pages/Sabores/Sabores"
 import ProtectedRoute from "../Components/ProtectedRoute"
+import ScrollToTop from "../Components/ScrollToTop"
 
 const Routing = () => {
     return (
 
         <Router>
+            <ScrollToTop />
             <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/queques" element={<Queques />} />
@@ -38,7 +43,23 @@ const Routing = () => {
                     path="/admin"
                     element={
                         <ProtectedRoute allowedRoles={['admin', 'owner']}>
-                            <MostrarProducts />
+                            <MostrarProducts type="productos" />
+                        </ProtectedRoute>
+                    }
+                />
+                <Route
+                    path="/admin/offers"
+                    element={
+                        <ProtectedRoute allowedRoles={['admin', 'owner']}>
+                            <MostrarProducts type="ofertas" />
+                        </ProtectedRoute>
+                    }
+                />
+                <Route
+                    path="/admin/flavors"
+                    element={
+                        <ProtectedRoute allowedRoles={['admin', 'owner']}>
+                            <MostrarProducts type="sabores" />
                         </ProtectedRoute>
                     }
                 />
@@ -59,7 +80,10 @@ const Routing = () => {
                     }
                 />
                 <Route path="/profile" element={<Profile />} />
+                <Route path="/mis-pedidos" element={<Ordenes />} />
                 <Route path="/producto" element={<ProductoDetalle />} />
+                <Route path="/ofertas" element={<Ofertas />} />
+                <Route path="/sabores" element={<Sabores />} />
             </Routes>
         </Router>
 

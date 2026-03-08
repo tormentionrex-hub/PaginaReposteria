@@ -29,16 +29,12 @@ function Queques() {
         return productos.filter(p => p.subcategoria === "Línea Premium (Fondant)");
     }
 
-    function obtenerTemporada() {
-        return productos.filter(p => p.subcategoria === "De Temporada");
-    }
-
     function adaptarData(arr) {
         return arr.map(item => ({
-            name: item.producto,
-            desc: item.detalle,
-            price: item.precio,
-            image: item.img || `https://via.placeholder.com/280x200/ffe4eb/b55c70?text=${encodeURIComponent(item.producto)}`
+            ...item,
+            image: item.img_Url || "",
+            price: `₡${item.precio}`,
+            desc: item.detalle
         }));
     }
 
@@ -54,7 +50,6 @@ function Queques() {
                     <ProductCarousel title="Nuestros Clásicos" items={adaptarData(obtenerClasicos())} />
                     <ProductCarousel title="Especiales para Ti" items={adaptarData(obtenerEspeciales())} />
                     <ProductCarousel title="Línea Premium (Fondant)" items={adaptarData(obtenerPremium())} />
-                    <ProductCarousel title="De Temporada" items={adaptarData(obtenerTemporada())} />
                 </div>
             </div>
             <Fooder />

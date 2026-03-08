@@ -12,56 +12,121 @@ const swalRosita = Swal.mixin({
     buttonsStyling: false,
 });
 
-function MostrarProducts() {
+const categoryMapping = {
+    productos: [
+        { value: "productos_queques", label: "Queques" },
+        { value: "productos_galletas", label: "Galletas" },
+        { value: "productos_tartasDeFresa", label: "Tartas de Fresa" },
+        { value: "productos_cupcakesFestivos", label: "Cupcakes Festivos" },
+        { value: "productos_macaronsDulces", label: "Macarons Dulces" }
+    ],
+    ofertas: [
+        { value: "productos_combosFamiliares", label: "Combos Familiares" },
+        { value: "productos_especialesDelMes", label: "Especiales del Mes" },
+        { value: "productos_decoracionPersonalizada", label: "Decoración Personalizada" }
+    ],
+    sabores: [
+        { value: "productos_sabores", label: "Pasteles Sugeridos" }
+    ]
+};
+
+const categoryReverseMapping = {
+    "productos_queques": 1,
+    "productos_combosFamiliares": 2,
+    "productos_especialesDelMes": 3,
+    "productos_cupcakesFestivos": 4,
+    "productos_macaronsDulces": 5,
+    "productos_decoracionPersonalizada": 6,
+    "productos_galletas": 7,
+    "productos_tartasDeFresa": 8,
+    "productos_sabores": 9
+};
+
+const subcategoryMapping = {
+    "productos_queques": ["Nuestros Clásicos", "Especiales para Ti", "Línea Premium (Fondant)"],
+    "productos_galletas": ["Chocochip Clásicas", "Rellenas de Nutella", "Avena y Pasas", "Mantequilla Suaves"],
+    "productos_tartasDeFresa": ["Mini Tartas Individuales", "Tartas Familiares", "Opciones Veganas", "Tartaletas con Cacao"],
+    "productos_macaronsDulces": ["Clásicos de Vainilla", "Favoritos de Pistacho", "Frambuesa y Frutos", "Cajas de Regalo"],
+    "productos_combosFamiliares": ["Para Desayunos", "Para Fiestas", "Especial de Cumpleaños", "Nuestros Mega Combos"],
+    "productos_especialesDelMes": ["Amantes de las Fresas", "Fiebre de Cacao", "Opciones Saludables", "Selección del Chef"],
+    "productos_cupcakesFestivos": ["Vainilla Clásica", "Chocolate Extremo", "Nuestros Red Velvet", "Arcoíris Infantiles"],
+    "productos_decoracionPersonalizada": ["Fiestas Infantiles", "Bodas y Aniversarios", "Minimalistas", "Temáticas Exclusivas"],
+    "productos_sabores": ["Pasteles Sugeridos"]
+};
+
+function MostrarProducts({ type = "productos" }) {
     const [productos, setProductos] = useState([]);
-    const [categoriaActual, setCategoriaActual] = useState("productos_queques");
+    const [categoriaActual, setCategoriaActual] = useState("");
     const [nombre, setNombre] = useState("");
     const [detalle, setDetalle] = useState("");
     const [precio, setPrecio] = useState("");
     const [imgUrl, setImgUrl] = useState("");
+    const [subcategoria, setSubcategoria] = useState("");
     const [editandoId, setEditandoId] = useState(null);
+    const [mostrandoCrear, setMostrandoCrear] = useState(false);
 
     useEffect(() => {
-        async function cargarProductos() {
-            const dataProductos = await ServiceProducts.getProductos(categoriaActual);
-            setProductos(dataProductos);
-            setEditandoId(null);
+        const defaultCat = categoryMapping[type][0].value;
+        setCategoriaActual(defaultCat);
+        setSubcategoria(subcategoryMapping[defaultCat][0]);
+    }, [type]);
+
+    useEffect(() => {
+        if (categoriaActual) {
+            cargarProductos();
+            // Al cambiar la categoría, reseteamos la subcategoría a la primera disponible de esa categoría
+            if (subcategoryMapping[categoriaActual]) {
+                setSubcategoria(subcategoryMapping[categoriaActual][0]);
+            }
         }
-        cargarProductos();
     }, [categoriaActual]);
 
-    // --- Lógica de Componente ---
+    async function cargarProductos() {
+        const dataProductos = await ServiceProducts.getProductos(categoriaActual);
+        setProductos(dataProductos);
+        setEditandoId(null);
+        setMostrandoCrear(false);
+    }
 
     async function handleGuardar(id) {
-        if (!nombre.trim() || !detalle.trim() || !precio.trim()) {
+        if (!nombre.trim() || !detalle.trim() || !precio) {
             swalRosita.fire({
                 icon: 'warning',
                 title: 'Campos requeridos',
-                text: 'No se permiten datos vacíos ni espacios en blanco. Completa nombre, detalle y precio.',
-                confirmButtonText: 'Entendido',
+                text: 'Completa nombre, detalle y precio.',
             });
             return;
         }
 
         const objProducto = {
-            producto: nombre,
+            name: nombre,
             detalle: detalle,
-            precio: precio,
-            img: imgUrl
+            precio: Number(precio),
+            img_Url: imgUrl,
+            subcategoria: subcategoria,
+            categoria_id: categoryReverseMapping[categoriaActual]
         };
 
         try {
-            await ServiceProducts.patchProductos(categoriaActual, objProducto, id);
-            setProductos(productos.map((prod) => prod.id === id ? { ...prod, ...objProducto } : prod));
-            setEditandoId(null);
+            if (id) {
+                await ServiceProducts.patchProductos(objProducto, id);
+                setProductos(productos.map((prod) => prod.id === id ? { ...prod, ...objProducto } : prod));
+                setEditandoId(null);
+            } else {
+                const nuevo = await ServiceProducts.postProductos(objProducto);
+                setProductos([...productos, nuevo]);
+                setMostrandoCrear(false);
+            }
+
             swalRosita.fire({
                 icon: 'success',
-                title: '¡Actualizado!',
+                title: id ? '¡Actualizado!' : '¡Creado!',
                 timer: 1500,
                 showConfirmButton: false,
             });
+            limpiarCampos();
         } catch (error) {
-            swalRosita.fire({ icon: 'error', title: 'Error al guardar' });
+            swalRosita.fire({ icon: 'error', title: 'Error al procesar' });
         }
     }
 
@@ -69,16 +134,15 @@ function MostrarProducts() {
         const prod = productos.find(p => p.id === id);
         const result = await swalRosita.fire({
             icon: 'warning',
-            title: '¿Eliminar producto?',
-            html: `Se eliminará <strong>"${prod?.producto}"</strong>.`,
+            title: '¿Eliminar?',
+            html: `Se eliminará <strong>"${prod?.name}"</strong>.`,
             showCancelButton: true,
-            confirmButtonText: 'Sí, eliminar',
-            cancelButtonText: 'Cancelar',
+            confirmButtonText: 'Eliminar',
         });
 
         if (result.isConfirmed) {
             try {
-                await ServiceProducts.deleteProductos(categoriaActual, id);
+                await ServiceProducts.deleteProductos(id);
                 setProductos(productos.filter((p) => p.id !== id));
                 swalRosita.fire({ icon: 'success', title: 'Eliminado', timer: 1500, showConfirmButton: false });
             } catch (error) {
@@ -89,14 +153,28 @@ function MostrarProducts() {
 
     function handleActivarEdicion(producto) {
         setEditandoId(producto.id);
-        setNombre(producto.producto);
+        setMostrandoCrear(false);
+        setNombre(producto.name);
         setDetalle(producto.detalle);
         setPrecio(producto.precio);
-        setImgUrl(producto.img || "");
+        setImgUrl(producto.img_Url || "");
+        setSubcategoria(producto.subcategoria || (subcategoryMapping[categoriaActual] ? subcategoryMapping[categoriaActual][0] : ""));
     }
 
-    function handleCancelarEdicion() {
+    function handleActivarCrear() {
+        limpiarCampos();
         setEditandoId(null);
+        setMostrandoCrear(true);
+    }
+
+    function limpiarCampos() {
+        setNombre("");
+        setDetalle("");
+        setPrecio("");
+        setImgUrl("");
+        if (subcategoryMapping[categoriaActual]) {
+            setSubcategoria(subcategoryMapping[categoriaActual][0]);
+        }
     }
 
     return (
@@ -106,8 +184,12 @@ function MostrarProducts() {
 
             <div className="envoltura_admin_principal">
                 <div className="contenedor_admin">
-                    <h2 className="titulo_admin">Gestión de Productos</h2>
-                    <p className="subtitulo_admin">Administra el catálogo de productos de cada categoría</p>
+                    <div className="cabecera_seccion_admin">
+                        <h2 className="titulo_admin">Gestión de {type.charAt(0).toUpperCase() + type.slice(1)}</h2>
+                        <button className="boton_añadir_producto" onClick={handleActivarCrear}>
+                            + Añadir {type === 'sabores' ? 'Sabor' : 'Producto'}
+                        </button>
+                    </div>
 
                     <div className="selector_categoria_admin">
                         <label>Categoría:</label>
@@ -116,24 +198,49 @@ function MostrarProducts() {
                             onChange={(e) => setCategoriaActual(e.target.value)}
                             className="desplegable_admin"
                         >
-                            <option value="productos_queques">Queques</option>
-                            <option value="productos_combosFamiliares">Combos Familiares</option>
-                            <option value="productos_especialesDelMes">Especiales del Mes</option>
-                            <option value="productos_galletas">Galletas</option>
-                            <option value="productos_tartasDeFresa">Tartas de Fresa</option>
-                            <option value="productos_cupcakesFestivos">Cupcakes Festivos</option>
-                            <option value="productos_macaronsDulces">Macarons Dulces</option>
-                            <option value="productos_decoracionPersonalizada">Decoración Personalizada</option>
+                            {categoryMapping[type].map(cat => (
+                                <option key={cat.value} value={cat.value}>{cat.label}</option>
+                            ))}
                         </select>
                         <span className="insignia_conteo_admin">
-                            {productos.length} {productos.length === 1 ? "producto" : "productos"}
+                            {productos.length} ítems
                         </span>
                     </div>
 
                     <div className="rejilla_admin">
-                        {productos.length === 0 ? (
+                        {mostrandoCrear && (
+                            <div className="tarjeta_admin tarjeta_creacion">
+                                <div className="formulario_edicion_admin">
+                                    <h3>Nuevo {type === 'sabores' ? 'Sabor' : 'Producto'}</h3>
+                                    <label>Nombre:</label>
+                                    <input type="text" value={nombre} onChange={(e) => setNombre(e.target.value)} placeholder="Ej: Queque de Selva Negra" />
+                                    <label>Detalle:</label>
+                                    <textarea value={detalle} onChange={(e) => setDetalle(e.target.value)} rows={3} placeholder="Descripción del producto..." />
+                                    <label>Precio:</label>
+                                    <input type="number" value={precio} onChange={(e) => setPrecio(e.target.value)} placeholder="0" />
+                                    <label>Subcategoría (Carrusel):</label>
+                                    <select
+                                        value={subcategoria}
+                                        onChange={(e) => setSubcategoria(e.target.value)}
+                                        className="desplegable_admin"
+                                    >
+                                        {subcategoryMapping[categoriaActual]?.map(sub => (
+                                            <option key={sub} value={sub}>{sub}</option>
+                                        ))}
+                                    </select>
+                                    <label>URL de Imagen:</label>
+                                    <input type="text" value={imgUrl} onChange={(e) => setImgUrl(e.target.value)} placeholder="https://..." />
+                                </div>
+                                <div className="acciones_admin">
+                                    <button onClick={() => handleGuardar()} className="boton_guardar">Crear</button>
+                                    <button onClick={() => setMostrandoCrear(false)} className="boton_cancelar">Cancelar</button>
+                                </div>
+                            </div>
+                        )}
+
+                        {productos.length === 0 && !mostrandoCrear ? (
                             <div className="estado_vacio">
-                                <p>No hay productos en esta categoría aún.</p>
+                                <p>No hay elementos en esta categoría.</p>
                             </div>
                         ) : (
                             productos.map((producto) => (
@@ -146,31 +253,42 @@ function MostrarProducts() {
                                                 <label>Detalle:</label>
                                                 <textarea value={detalle} onChange={(e) => setDetalle(e.target.value)} rows={3} />
                                                 <label>Precio:</label>
-                                                <input type="text" value={precio} onChange={(e) => setPrecio(e.target.value)} />
+                                                <input type="number" value={precio} onChange={(e) => setPrecio(e.target.value)} />
+                                                <label>Subcategoría:</label>
+                                                <select
+                                                    value={subcategoria}
+                                                    onChange={(e) => setSubcategoria(e.target.value)}
+                                                    className="desplegable_admin"
+                                                >
+                                                    {subcategoryMapping[categoriaActual]?.map(sub => (
+                                                        <option key={sub} value={sub}>{sub}</option>
+                                                    ))}
+                                                </select>
                                                 <label>URL de Imagen:</label>
                                                 <input type="text" value={imgUrl} onChange={(e) => setImgUrl(e.target.value)} />
                                             </div>
                                             <div className="acciones_admin">
                                                 <button onClick={() => handleGuardar(producto.id)} className="boton_guardar">Guardar</button>
-                                                <button onClick={handleCancelarEdicion} className="boton_cancelar">Cancelar</button>
+                                                <button onClick={() => setEditandoId(null)} className="boton_cancelar">Cancelar</button>
                                             </div>
                                         </>
                                     ) : (
                                         <>
                                             <div className="envoltura_imagen_admin">
-                                                {producto.img ? (
-                                                    <img src={producto.img} alt={producto.producto} className="imagen_producto_admin" />
+                                                {producto.img_Url ? (
+                                                    <img src={producto.img_Url} alt={producto.name} className="imagen_producto_admin" />
                                                 ) : (
                                                     <div className="marcador_imagen_vacia">🖼️</div>
                                                 )}
                                             </div>
                                             <div className="info_producto_admin">
                                                 <div className="cabecera_info_admin">
-                                                    <h3>{producto.producto}</h3>
+                                                    <h3>{producto.name}</h3>
                                                     <span className="insignia_id_admin">#{producto.id}</span>
                                                 </div>
+                                                <p className="sub_badge_admin">{producto.subcategoria || 'Sin subcategoría'}</p>
                                                 <p className="texto_detalle_admin">{producto.detalle}</p>
-                                                <p className="precio_admin">{producto.precio}</p>
+                                                <p className="precio_admin">₡{producto.precio}</p>
                                             </div>
                                             <div className="acciones_admin">
                                                 <button onClick={() => handleActivarEdicion(producto)} className="boton_editar">Editar</button>

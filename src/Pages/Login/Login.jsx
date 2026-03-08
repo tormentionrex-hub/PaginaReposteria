@@ -35,7 +35,7 @@ function Login() {
                 localStorage.setItem("user", JSON.stringify(usuarioEncontrado));
                 Swal.fire({
                     icon: 'success',
-                    title: `¡Bienvenido/a, ${usuarioEncontrado.nombre}!`,
+                    title: `¡Bienvenido/a, ${usuarioEncontrado.name}!`,
                     timer: 1500,
                     showConfirmButton: false
                 });
@@ -43,7 +43,7 @@ function Login() {
                 if (usuarioEncontrado.rol === 'admin' || usuarioEncontrado.rol === 'owner') {
                     navigate('/admin');
                 } else {
-                    navigate('/profile');
+                    navigate('/');
                 }
             } else {
                 setError("Correo o contraseña incorrectos.");

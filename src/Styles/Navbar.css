@@ -37,22 +37,22 @@
    CONTENEDOR PRINCIPAL DEL NAVBAR
 ================================== */
 .navegacion {
-    position: fixed;
+    position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 110px;
-    background: var(--nav_cristal);
+    background: #fff0f5;
+    /* Un rosita claro y dulce */
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    border-bottom: 2px solid var(--nav_cristal_borde);
-    box-shadow: 0 4px 15px rgba(255, 107, 139, 0.1);
+    border-bottom: 3px solid #ffdae9;
+    box-shadow: 0 4px 20px rgba(255, 107, 139, 0.15);
     z-index: 999;
     display: flex;
     justify-content: center;
     align-items: center;
     transition: all 0.3s ease-in-out;
-    background-color: transparent;
 }
 
 .contenedor_navegacion {
@@ -140,33 +140,36 @@
 .enlace_navegacion {
     font-family: 'Quicksand', sans-serif;
     text-decoration: none;
-    color: #ffffff;
-    background: linear-gradient(135deg, #c2185b, #e83e8c);
-    font-size: 1.05rem;
+    color: var(--nav_texto);
+    font-size: 1.1rem;
     font-weight: 700;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.3px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    padding: 0.6rem 1.4rem;
-    border-radius: 25px;
+    padding: 0.5rem 0;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 10px rgba(194, 24, 91, 0.25);
+    position: relative;
 }
 
 .enlace_navegacion::after {
-    display: none;
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 3px;
+    background: var(--nav_primario);
+    transition: width 0.3s ease;
+    border-radius: 10px;
 }
 
 .enlace_navegacion:hover {
-    background: linear-gradient(135deg, #a0104a, #c2185b);
-    color: #ffffff;
-    transform: translateY(-2px);
-    box-shadow: 0 6px 15px rgba(194, 24, 91, 0.4);
+    color: var(--nav_primario);
 }
 
 .enlace_navegacion:hover::after {
-    display: none;
+    width: 100%;
 }
 
 /* ===============================
@@ -319,16 +322,12 @@
     align-items: center;
     gap: 12px;
     margin-right: 15px;
-    background: linear-gradient(135deg, #c2185b, #e83e8c);
-    padding: 0.4rem 1.4rem 0.4rem 0.6rem;
-    border-radius: 50px;
-    box-shadow: 0 4px 10px rgba(194, 24, 91, 0.25);
+    padding: 0.4rem;
     transition: all 0.3s ease;
 }
 
 .info_usuario_nav:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 15px rgba(194, 24, 91, 0.4);
+    transform: scale(1.02);
 }
 
 .imagen_usuario_nav {
@@ -351,7 +350,7 @@
     font-family: 'Quicksand', sans-serif;
     font-size: 1.05rem;
     font-weight: 800;
-    color: #ffffff;
+    color: var(--nav_texto);
     line-height: 1.2;
 }
 
@@ -359,7 +358,7 @@
     font-family: 'Quicksand', sans-serif;
     font-size: 0.8rem;
     font-weight: 800;
-    color: #ffb3c6;
+    color: var(--nav_primario);
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }

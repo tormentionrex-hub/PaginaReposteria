@@ -36,6 +36,15 @@ const CLASES_TARJETA = {
     cancelado: 'badge_cancelado',
 };
 
+const CONFIG_LABELS = {
+    1: { l1: 'Tamaño', l2: 'Base', l3: 'Relleno' },
+    2: { l1: 'Pres.', l2: 'Variedad', l3: 'Extras' },
+    3: { l1: 'Tamaño', l2: 'Base', l3: 'Topping' },
+    4: { l1: 'Pack', l2: 'Sabor', l3: 'Cobertura' },
+    5: { l1: 'Caja', l2: 'Temática', l3: 'Sabores' },
+    6: { l1: 'Opción', l2: 'Sabor 1', l3: 'Sabor 2' },
+};
+
 function AdminOrders() {
     const [pedidos, setPedidos] = useState([]);
     const [cargando, setCargando] = useState(true);
@@ -52,16 +61,44 @@ function AdminOrders() {
     async function cargarPedidos() {
         setCargando(true);
         try {
-            const respuesta = await fetch('http://localhost:3001/pedidos');
-            if (!respuesta.ok) throw new Error('Error al cargar pedidos');
-            const datos = await respuesta.json();
-            const ordenados = datos.sort((a, b) => new Date(b.fecha) - new Date(a.fecha));
+            // Fetch everything in parallel to bypass unreliable expansion
+            const [resPedidos, resUsers, resProducts, resDetalle] = await Promise.all([
+                fetch('http://localhost:3001/pedidos'),
+                fetch('http://localhost:3001/usuarios'),
+                fetch('http://localhost:3001/productos'),
+                fetch('http://localhost:3001/detalles')
+            ]);
+
+            if (!resPedidos.ok || !resUsers.ok || !resProducts.ok || !resDetalle.ok)
+                throw new Error('Error al cargar datos');
+
+            const [datosPedidos, datosUsers, datosProducts, datosDetalles] = await Promise.all([
+                resPedidos.json(),
+                resUsers.json(),
+                resProducts.json(),
+                resDetalle.json()
+            ]);
+
+            // Efficient mapping by ID
+            const userMap = Object.fromEntries(datosUsers.map(u => [u.id.toString(), u]));
+            const productMap = Object.fromEntries(datosProducts.map(p => [p.id.toString(), p]));
+
+            // Build the final objects manually
+            const pedidosCompletos = datosPedidos.map(pedido => ({
+                ...pedido,
+                usuario: userMap[pedido.usuarioId?.toString()],
+                producto: productMap[pedido.productoId?.toString()],
+                detalle: datosDetalles.filter(d => d.pedidoId?.toString() === pedido.id?.toString())
+            }));
+
+            const ordenados = pedidosCompletos.sort((a, b) => new Date(b.fecha) - new Date(a.fecha));
             setPedidos(ordenados);
         } catch (error) {
+            console.error("Fetch error:", error);
             swalRosita.fire({
                 icon: 'error',
                 title: 'Error de conexión',
-                text: 'No se pudieron cargar los pedidos.',
+                text: 'No se pudieron cargar los pedidos sincronizados.',
                 confirmButtonText: 'Cerrar',
             });
         } finally {
@@ -96,7 +133,7 @@ function AdminOrders() {
         const resultado = await swalRosita.fire({
             icon: 'warning',
             title: '¿Eliminar pedido?',
-            html: `<p>Se eliminará el pedido de <strong>"${pedido.productoNombre}"</strong>.</p>`,
+            html: `<p>Se eliminará el pedido de <strong>"${pedido.producto?.name || 'Producto desconocido'}"</strong>.</p>`,
             showCancelButton: true,
             confirmButtonText: 'Sí, eliminar',
             cancelButtonText: 'Cancelar',
@@ -142,9 +179,9 @@ function AdminOrders() {
             const coincideEstado = filtroEstado === 'todos' || p.estado === filtroEstado;
             const termino = busqueda.toLowerCase();
             const coincideBusqueda = !busqueda ||
-                p.productoNombre?.toLowerCase().includes(termino) ||
-                p.usuarioNombre?.toLowerCase().includes(termino) ||
-                p.usuarioEmail?.toLowerCase().includes(termino);
+                p.producto?.name?.toLowerCase().includes(termino) ||
+                p.usuario?.name?.toLowerCase().includes(termino) ||
+                p.usuario?.email?.toLowerCase().includes(termino);
             return coincideEstado && coincideBusqueda;
         });
     }
@@ -245,7 +282,6 @@ function AdminOrders() {
                                 <table className="tabla_pedidos">
                                     <thead>
                                         <tr>
-                                            <th>#</th>
                                             <th>Producto</th>
                                             <th>Cliente</th>
                                             <th>Opciones</th>
@@ -259,31 +295,32 @@ function AdminOrders() {
                                     <tbody>
                                         {pedidosFiltrados.map(pedido => (
                                             <tr key={pedido.id} className="fila_pedido" onClick={() => setPedidoActivo(pedido)}>
-                                                <td className="celda_id">#{pedido.id}</td>
                                                 <td className="celda_producto">
                                                     <div className="info_producto">
-                                                        {pedido.productoImg && (
-                                                            <img src={pedido.productoImg} alt={pedido.productoNombre} className="imagen_producto_tabla" />
+                                                        {(pedido.producto?.img_Url || pedido.producto?.image) && (
+                                                            <img src={pedido.producto?.img_Url || pedido.producto?.image} alt={pedido.producto?.name} className="imagen_producto_tabla" />
                                                         )}
-                                                        <span>{pedido.productoNombre}</span>
+                                                        <span>{pedido.producto?.name || 'Sin nombre'}</span>
                                                     </div>
                                                 </td>
                                                 <td className="celda_cliente">
                                                     <div className="info_cliente">
-                                                        <strong>{pedido.usuarioNombre}</strong>
-                                                        <small>{pedido.usuarioEmail}</small>
+                                                        <strong>{pedido.usuario?.name || 'Usuario desconocido'}</strong>
+                                                        <small>{pedido.usuario?.email || 'No email'}</small>
                                                     </div>
                                                 </td>
                                                 <td className="celda_opciones">
-                                                    <span>{pedido.tamanio}</span><br />
-                                                    <small>{pedido.base} · {pedido.relleno}</small>
+                                                    <span>{pedido.detalle?.[0]?.tamanio}</span><br />
+                                                    <small>
+                                                        {pedido.detalle?.[0]?.base} · {pedido.detalle?.[0]?.relleno}
+                                                    </small>
                                                 </td>
-                                                <td className="celda_cantidad">{pedido.cantidad}</td>
-                                                <td className="celda_precio">{pedido.productoPrecio}</td>
+                                                <td className="celda_cantidad">{pedido.detalle?.[0]?.cantidad || 0}</td>
+                                                <td className="celda_precio">{pedido.total}</td>
                                                 <td className="celda_fecha">{formatFecha(pedido.fecha)}</td>
                                                 <td className="celda_estado" onClick={e => e.stopPropagation()}>
                                                     <select
-                                                        className={`selector_estado ${COLORES_ESTADO[pedido.estado]}`}
+                                                        className={`badge_estado_admin ${COLORES_ESTADO[pedido.estado]}`}
                                                         value={pedido.estado}
                                                         onChange={e => cambiarEstado(pedido, e.target.value)}
                                                     >
@@ -322,11 +359,11 @@ function AdminOrders() {
                         <h3 className="titulo_modal">Detalle del Pedido #{pedidoActivo.id}</h3>
 
                         <div className="fila_imagen_modal">
-                            {pedidoActivo.productoImg && (
-                                <img src={pedidoActivo.productoImg} alt={pedidoActivo.productoNombre} className="imagen_modal" />
+                            {(pedidoActivo.producto?.img_Url || pedidoActivo.producto?.image) && (
+                                <img src={pedidoActivo.producto?.img_Url || pedidoActivo.producto?.image} alt={pedidoActivo.producto?.name} className="imagen_modal" />
                             )}
                             <div className="nombre_producto_modal">
-                                <h4>{pedidoActivo.productoNombre}</h4>
+                                <h4>{pedidoActivo.producto?.name}</h4>
                                 <span className={`insignia_estado ${COLORES_ESTADO[pedidoActivo.estado]}`}>
                                     {ETIQUETAS_ESTADO[pedidoActivo.estado]}
                                 </span>
@@ -336,36 +373,33 @@ function AdminOrders() {
                         <div className="rejilla_modal">
                             <div className="campo_modal">
                                 <label>Cliente</label>
-                                <span>{pedidoActivo.usuarioNombre}</span>
+                                <span>{pedidoActivo.usuario?.name}</span>
                             </div>
                             <div className="campo_modal">
                                 <label>Email</label>
-                                <span>{pedidoActivo.usuarioEmail}</span>
+                                <span>{pedidoActivo.usuario?.email}</span>
                             </div>
                             <div className="campo_modal">
-                                <label>Tamaño</label>
-                                <span>{pedidoActivo.tamanio}</span>
+                                <label>{CONFIG_LABELS[pedidoActivo.producto?.categoria_id]?.l1 || 'Tamaño'}</label>
+                                <span>{pedidoActivo.detalle?.[0]?.tamanio}</span>
                             </div>
                             <div className="campo_modal">
-                                <label>Base</label>
-                                <span>{pedidoActivo.base}</span>
+                                <label>{CONFIG_LABELS[pedidoActivo.producto?.categoria_id]?.l2 || 'Base'}</label>
+                                <span>{pedidoActivo.detalle?.[0]?.base}</span>
                             </div>
                             <div className="campo_modal">
-                                <label>Relleno</label>
-                                <span>{pedidoActivo.relleno}</span>
+                                <label>{CONFIG_LABELS[pedidoActivo.producto?.categoria_id]?.l3 || 'Relleno'}</label>
+                                <span>{pedidoActivo.detalle?.[0]?.relleno}</span>
                             </div>
                             <div className="campo_modal">
                                 <label>Cantidad</label>
-                                <span>{pedidoActivo.cantidad}</span>
+                                <span>{pedidoActivo.detalle?.[0]?.cantidad}</span>
                             </div>
                             <div className="campo_modal">
-                                <label>Precio unitario</label>
-                                <span>{pedidoActivo.productoPrecio}</span>
+                                <label>Precio total</label>
+                                <span>{pedidoActivo.total}</span>
                             </div>
-                            <div className="campo_modal">
-                                <label>Categoría</label>
-                                <span>{pedidoActivo.categoria || '—'}</span>
-                            </div>
+
                             <div className="campo_modal campo_modal_ancho">
                                 <label>Comentario</label>
                                 <span>{pedidoActivo.comentario || 'Sin comentarios'}</span>

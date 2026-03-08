@@ -35,19 +35,27 @@ function Nav() {
                         <span className="enlace_navegacion activador_desplegable">Productos</span>
                         <ul className="menu_desplegable">
                             <li><Link to="/queques" className="item_desplegable">Queques</Link></li>
-                            <li><Link to="/combos-familiares" className="item_desplegable">Combos Familiares</Link></li>
-                            <li><Link to="/decoracion-personalizada" className="item_desplegable">Decoración Personalizada</Link></li>
-                            <li><Link to="/especiales-del-mes" className="item_desplegable">Especiales del Mes</Link></li>
                             <li><Link to="/galletas" className="item_desplegable">Galletas</Link></li>
                             <li><Link to="/tartas-de-fresa" className="item_desplegable">Tartas de Fresa</Link></li>
                             <li><Link to="/cupcakes-festivos" className="item_desplegable">Cupcakes Festivos</Link></li>
                             <li><Link to="/macarons-dulces" className="item_desplegable">Macarons Dulces</Link></li>
                         </ul>
                     </li>
+                    <li className="item_navegacion">
+                        <Link to="/ofertas" className="enlace_navegacion">Ofertas</Link>
+                    </li>
+                    <li className="item_navegacion">
+                        <Link to="/sabores" className="enlace_navegacion">Sabores</Link>
+                    </li>
                     {userInfo && (
-                        <li className="item_navegacion">
-                            <Link to="/profile" className="enlace_navegacion">Mi Perfil</Link>
-                        </li>
+                        <>
+                            <li className="item_navegacion">
+                                <Link to="/profile" className="enlace_navegacion">Mi Perfil</Link>
+                            </li>
+                            <li className="item_navegacion">
+                                <Link to="/mis-pedidos" className="enlace_navegacion">Mis Pedidos</Link>
+                            </li>
+                        </>
                     )}
                     {esAdmin && (
                         <li className="item_navegacion">
@@ -64,19 +72,19 @@ function Nav() {
                         </>
                     ) : (
                         <>
-                            <div className="info_usuario_nav">
+                            <Link to="/profile" className="info_usuario_nav" title="Ir a mi perfil">
                                 <img
                                     src={userInfo.foto || "https://i.pinimg.com/736x/52/17/11/5217111bf01e03621b31bfd2abbdbb6a.jpg"}
                                     alt="Usuario"
                                     className="imagen_usuario_nav"
                                 />
                                 <div className="texto_usuario_nav">
-                                    <p className="nombre_nav">{userInfo.nombre}</p>
+                                    <p className="nombre_nav">{userInfo.name}</p>
                                     {(userInfo.rol === 'admin' || userInfo.rol === 'owner') && (
                                         <span className="rol_nav">{userInfo.rol === 'owner' ? 'Propietario' : 'Administrador'}</span>
                                     )}
                                 </div>
-                            </div>
+                            </Link>
                             <button className="boton_salir" onClick={cerrarSesion}>
                                 Salir
                             </button>

@@ -13,9 +13,57 @@ const swalRosita = Swal.mixin({
     buttonsStyling: false,
 });
 
-const TAMANIOS = ['Pequeño (6 porciones)', 'Mediano (12 porciones)', 'Grande (20 porciones)', 'Extra Grande (30 porciones)'];
-const BASES = ['Vainilla', 'Chocolate', 'Red Velvet', 'Limón', 'Zanahoria'];
-const RELLENOS = ['Crema pastelera', 'Arequipe', 'Fresa', 'Chocolate', 'Sin relleno'];
+const CONFIG_OPCIONES = {
+    1: { // Queques
+        label1: 'TAMAÑO (PORCIONES)',
+        opts1: ['Pequeño (6-8 p.)', 'Mediano (12-15 p.)', 'Grande (20-25 p.)', 'Extra Grande (30+ p.)'],
+        label2: 'SABOR DE QUEQUE',
+        opts2: ['Vainilla', 'Chocolate', 'Red Velvet', 'Limón', 'Zanahoria'],
+        label3: 'RELLENO PRINCIPAL',
+        opts3: ['Fresa Natural', 'Crema de Chocolate', 'Arequipe', 'Frutos Rojos', 'Nutella']
+    },
+    2: { // Galletas
+        label1: 'PRESENTACIÓN',
+        opts1: ['Individual', 'Caja x6 unidades', 'Caja x12 unidades', 'Pack Familiar (24)'],
+        label2: 'VARIEDAD',
+        opts2: ['Clásicas', 'Con Relleno', 'Surtido Mix', 'Mini Galletitas'],
+        label3: 'EXTRAS / EMPAQUE',
+        opts3: ['Estándar', 'Decoración Sencilla', 'Empaque de Regalo']
+    },
+    3: { // Tartas
+        label1: 'TAMAÑO TARTA',
+        opts1: ['Personal', 'Mediana (8p)', 'Grande (14p)'],
+        label2: 'TIPO DE BASE',
+        opts2: ['Galleta Crujiente', 'Masa Hojaldrada', 'Base de Chocolate'],
+        label3: 'CUBIERTA / TOPPING',
+        opts3: ['Fresa Natural', 'Fresa y Chocolate', 'Fresa con Chantilly']
+    },
+    4: { // Cupcakes
+        label1: 'CANTIDAD CUPCAKES',
+        opts1: ['Pack x4 unidades', 'Caja x6 unidades', 'Caja x12 unidades'],
+        label2: 'SABOR MASA',
+        opts2: ['Vainilla', 'Chocolate', 'Red Velvet', 'Marmoleado'],
+        label3: 'COBERTURA / FROSTING',
+        opts3: ['Buttercream Classic', 'Crema de Queso', 'Ganache Chocolate']
+    },
+    5: { // Macarons
+        label1: 'PRESENTACIÓN CAJA',
+        opts1: ['Caja x6 (Surtida)', 'Caja x12 (Surtida)', 'Estuche de Regalo (24)'],
+        label2: 'TEMÁTICA COLORES',
+        opts2: ['Pastel Classic', 'Vibrantes Festivos', 'Blanco Elegante'],
+        label3: 'SABORES PREDOMINANTES',
+        opts3: ['Mix del Chef', 'Frutales', 'Dulces / Cremosos']
+    },
+    6: { // Combos
+        label1: 'OPCIÓN DE COMBO',
+        opts1: ['Combo Estándar', 'Combo Plus (Extra Cupcakes)', 'Combo Premium (Con Bebida)'],
+        label2: 'SABOR PRINCIPAL',
+        opts2: ['Vainilla / Frutas', 'Todo Chocolate', 'Mix Variado'],
+        label3: 'COMPLEMENTOS',
+        opts3: ['Fresa / Vainilla', 'Chocolate / Arequipe', 'Surtido de Temporada']
+    },
+    // Categorías restantes usan el default (Queques)
+};
 
 function ProductoDetalle() {
     const location = useLocation();
@@ -35,6 +83,9 @@ function ProductoDetalle() {
         return null;
     }
 
+    const catId = producto.categoria_id || 1;
+    const config = CONFIG_OPCIONES[catId] || CONFIG_OPCIONES[1];
+
     // --- Lógica de Componente ---
 
     async function handleRealizarPedido() {
@@ -42,7 +93,7 @@ function ProductoDetalle() {
             swalRosita.fire({
                 icon: 'warning',
                 title: 'Opciones incompletas',
-                text: 'Por favor selecciona el tamaño, la base y el relleno.',
+                text: `Por favor selecciona ${config.label1.toLowerCase()}, ${config.label2.toLowerCase()} y ${config.label3.toLowerCase()}.`,
                 confirmButtonText: 'Entendido',
             });
             return;
@@ -75,30 +126,56 @@ function ProductoDetalle() {
 
         setCargando(true);
         const nuevoPedido = {
-            productoNombre: producto.name,
-            productoImg: producto.image,
-            productoPrecio: producto.price,
-            categoria: producto.categoria || '',
+            usuarioId: user.id,
+            productoId: producto.id,
             tamanio,
             base,
             relleno,
             cantidad,
             comentario: comentario.trim(),
-            usuarioId: user.id,
-            usuarioNombre: user.nombre,
-            usuarioEmail: user.email,
+            total: (producto.precio || producto.price || 0) * cantidad,
             estado: 'pendiente',
             fecha: new Date().toISOString(),
         };
 
         try {
-            const respuesta = await fetch('http://localhost:3001/pedidos', {
+            // 1. Crear el encabezado del pedido
+            const headerPedido = {
+                usuarioId: user.id,
+                productoId: producto.id, // Referencia rápida
+                fecha: new Date().toISOString(),
+                estado: 'pendiente',
+                total: (producto.precio || producto.price || 0) * cantidad,
+                comentario: comentario.trim()
+            };
+
+            const resPedido = await fetch('http://localhost:3001/pedidos', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(nuevoPedido),
+                body: JSON.stringify(headerPedido),
             });
 
-            if (!respuesta.ok) throw new Error();
+            if (!resPedido.ok) throw new Error();
+            const pedidoGuardado = await resPedido.json();
+
+            // 2. Crear el detalle del pedido
+            const detallePedido = {
+                pedidoId: pedidoGuardado.id,
+                productoId: producto.id,
+                cantidad,
+                precio: producto.precio || producto.price || 0,
+                tamanio,
+                base,
+                relleno
+            };
+
+            const resDetalle = await fetch('http://localhost:3001/detalles', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(detallePedido),
+            });
+
+            if (!resDetalle.ok) throw new Error();
 
             setCargando(false);
             swalRosita.fire({
@@ -154,26 +231,26 @@ function ProductoDetalle() {
 
                         <div className="opciones_producto_detalle">
                             <div className="campo_detalle">
-                                <label>TAMAÑO</label>
+                                <label>{config.label1}</label>
                                 <select value={tamanio} onChange={e => setTamanio(e.target.value)}>
                                     <option value="">Elige una opción</option>
-                                    {TAMANIOS.map(t => <option key={t} value={t}>{t}</option>)}
+                                    {config.opts1.map(t => <option key={t} value={t}>{t}</option>)}
                                 </select>
                             </div>
 
                             <div className="campo_detalle">
-                                <label>BASE</label>
+                                <label>{config.label2}</label>
                                 <select value={base} onChange={e => setBase(e.target.value)}>
                                     <option value="">Elige una opción</option>
-                                    {BASES.map(b => <option key={b} value={b}>{b}</option>)}
+                                    {config.opts2.map(b => <option key={b} value={b}>{b}</option>)}
                                 </select>
                             </div>
 
                             <div className="campo_detalle">
-                                <label>RELLENO</label>
+                                <label>{config.label3}</label>
                                 <select value={relleno} onChange={e => setRelleno(e.target.value)}>
                                     <option value="">Elige una opción</option>
-                                    {RELLENOS.map(r => <option key={r} value={r}>{r}</option>)}
+                                    {config.opts3.map(r => <option key={r} value={r}>{r}</option>)}
                                 </select>
                             </div>
 

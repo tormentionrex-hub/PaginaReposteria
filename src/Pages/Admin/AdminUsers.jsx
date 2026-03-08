@@ -47,7 +47,7 @@ function AdminUsers() {
         const result = await swalRosita.fire({
             icon: 'question',
             title: '¿Cambiar rol?',
-            text: `Vas a cambiar el rol de ${usuario.nombre} a ${nuevoRol}.`,
+            text: `Vas a cambiar el rol de ${usuario.name} a ${nuevoRol}.`,
             showCancelButton: true,
             confirmButtonText: 'Sí, cambiar',
             cancelButtonText: 'Cancelar',
@@ -66,19 +66,35 @@ function AdminUsers() {
 
     async function handleEliminarUsuario(id) {
         const u = usuarios.find(user => user.id === id);
-        if (u.rol === 'owner') {
-            swalRosita.fire({ icon: 'error', title: 'No permitido', text: 'No puedes eliminar al Owner.' });
+
+        // 1. No se puede eliminar a uno mismo
+        if (id === usuarioActual?.id) {
+            swalRosita.fire({ icon: 'error', title: 'Operación no permitida', text: 'No puedes eliminar tu propia cuenta.' });
             return;
         }
-        if (usuarioActual?.rol === 'admin' && u.rol === 'admin') {
-            swalRosita.fire({ icon: 'error', title: 'No permitido', text: 'Un admin no puede eliminar a otro admin.' });
-            return;
+
+        // 2. Jerarquía de Owner
+        if (usuarioActual?.rol === 'owner') {
+            // El owner puede borrar a cualquiera (admins y clientes) excepto a sí mismo (ya checkeado arriba)
+        }
+        // 3. Jerarquía de Admin
+        else if (usuarioActual?.rol === 'admin') {
+            if (u.rol === 'owner' || u.rol === 'admin') {
+                swalRosita.fire({
+                    icon: 'error',
+                    title: 'Sin permisos',
+                    text: 'Un administrador no puede eliminar a otros administradores ni al propietario.'
+                });
+                return;
+            }
+        } else {
+            return; // No debería suceder si el acceso está restringido
         }
 
         const result = await swalRosita.fire({
             icon: 'warning',
             title: '¿Eliminar usuario?',
-            text: `Se eliminará a ${u.nombre}.`,
+            text: `Se eliminará a ${u.name}.`,
             showCancelButton: true,
             confirmButtonText: 'Sí, eliminar',
             cancelButtonText: 'Cancelar',
@@ -97,7 +113,7 @@ function AdminUsers() {
 
     function handleAbrirEdicion(usuario) {
         setUsuarioAEditar(usuario);
-        setEditNombre(usuario.nombre);
+        setEditNombre(usuario.name);
         setEditEmail(usuario.email);
         setEditPassword('');
         setEditFoto(usuario.foto || '');
@@ -158,8 +174,16 @@ function AdminUsers() {
             return;
         }
 
+        // --- VERIFICACIÓN DE PERMISOS PARA EDITAR ---
+        if (usuarioActual?.id !== usuarioAEditar.id) { // Si no se edita a sí mismo
+            if (usuarioActual?.rol === 'admin' && usuarioAEditar.rol !== 'cliente') {
+                swalRosita.fire({ icon: 'error', title: 'No permitido', text: 'Solo puedes editar clientes.' });
+                return;
+            }
+        }
+
         const datosActualizados = {
-            nombre: editNombre.trim(),
+            name: editNombre.trim(),
             email: editEmail.trim(),
             foto: editFoto,
             ...(editPassword.trim() ? { password: editPassword.trim() } : {}),
@@ -181,8 +205,17 @@ function AdminUsers() {
     }
 
     function puedeEditar(u) {
-        if (usuarioActual?.rol === 'owner') return u.rol !== 'owner' || u.id === usuarioActual.id; //aqui se permita realizar el patch para que el administrador pueda editar su propio perfil
-        if (usuarioActual?.rol === 'admin') return u.rol === 'cliente';
+        if (!usuarioActual) return false;
+        if (u.id === usuarioActual.id) return true; // Siempre puede editarse a sí mismo
+        if (usuarioActual.rol === 'owner') return true; // El owner edita a cualquiera
+        if (usuarioActual.rol === 'admin') return u.rol === 'cliente'; // Admin solo edita clientes
+        return false;
+    }
+
+    function puedeEliminar(u) {
+        if (!usuarioActual || u.id === usuarioActual.id) return false; // Nunca borrarse a sí mismo
+        if (usuarioActual.rol === 'owner') return true; // Owner borra a cualquiera
+        if (usuarioActual.rol === 'admin') return u.rol === 'cliente'; // Admin solo borra clientes
         return false;
     }
 
@@ -214,7 +247,7 @@ function AdminUsers() {
                                                 <img src={u.foto || "https://i.pinimg.com/736x/52/17/11/5217111bf01e03621b31bfd2abbdbb6a.jpg"} alt="User" />
                                             </div>
                                         </td>
-                                        <td>{u.nombre}</td>
+                                        <td>{u.name}</td>
                                         <td>{u.email}</td>
                                         <td>
                                             <span className={`insignia_rol ${u.rol}`}>
@@ -231,7 +264,7 @@ function AdminUsers() {
                                                 {puedeEditar(u) && (
                                                     <button onClick={() => handleAbrirEdicion(u)} className="boton_editar_usuario">Editar</button>
                                                 )}
-                                                {(usuarioActual?.rol === 'owner' ? u.rol !== 'owner' : u.rol === 'cliente') && (
+                                                {puedeEliminar(u) && (
                                                     <button onClick={() => handleEliminarUsuario(u.id)} className="boton_eliminar_usuario">Eliminar</button>
                                                 )}
                                             </div>

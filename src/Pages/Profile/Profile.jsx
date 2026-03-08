@@ -10,6 +10,7 @@ function Profile() {
     const [showModal, setShowModal] = useState(false);
     const [editNombre, setEditNombre] = useState("");
     const [editEmail, setEditEmail] = useState("");
+    const [editFoto, setEditFoto] = useState("");
     const [currentPassword, setCurrentPassword] = useState("");
     const [newPassword, setNewPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
@@ -21,8 +22,9 @@ function Profile() {
         if (loggedUser) {
             const parsedUser = JSON.parse(loggedUser);
             setUser(parsedUser);
-            setEditNombre(parsedUser.nombre);
+            setEditNombre(parsedUser.name);
             setEditEmail(parsedUser.email);
+            setEditFoto(parsedUser.foto || "");
         } else {
             navigate('/login');
         }
@@ -48,6 +50,21 @@ function Profile() {
         });
     }
 
+    function handleFotoChange(e) {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setEditFoto(reader.result);
+            };
+            reader.readAsDataURL(file);
+        }
+    }
+
+    function handleEliminarFoto() {
+        setEditFoto("");
+    }
+
     async function handleUpdate(e) {
         e.preventDefault();
         setError("");
@@ -70,8 +87,9 @@ function Profile() {
 
         try {
             const updatedData = {
-                nombre: editNombre,
+                name: editNombre,
                 email: editEmail,
+                foto: editFoto,
                 password: newPassword || user.password
             };
 
@@ -108,7 +126,7 @@ function Profile() {
                         <div className="avatar_perfil">
                             <img src={user.foto || "https://i.pinimg.com/736x/52/17/11/5217111bf01e03621b31bfd2abbdbb6a.jpg"} alt="Perfil" className="imagen_avatar" />
                         </div>
-                        <h2 className="nombre_perfil">¡Hola, {user.nombre}!</h2>
+                        <h2 className="nombre_perfil">¡Hola, {user.name}!</h2>
                         <p className="email_perfil">{user.email}</p>
                     </div>
 
@@ -135,6 +153,34 @@ function Profile() {
                     <div className="tarjeta_modal">
                         <h3 className="titulo_modal">Editar Perfil</h3>
                         <form onSubmit={handleUpdate} className="formulario_modal">
+
+                            <div className="seccion_foto_modal">
+                                <div className="avatar_previsualizacion">
+                                    <img
+                                        src={editFoto || "https://i.pinimg.com/736x/52/17/11/5217111bf01e03621b31bfd2abbdbb6a.jpg"}
+                                        alt="Previsualización"
+                                        className="imagen_avatar"
+                                    />
+                                </div>
+                                <div className="controles_foto">
+                                    <label htmlFor="input_foto" className="boton_cambiar_foto">
+                                        Cambiar Foto
+                                        <input
+                                            type="file"
+                                            id="input_foto"
+                                            accept="image/*"
+                                            onChange={handleFotoChange}
+                                            hidden
+                                        />
+                                    </label>
+                                    {editFoto && (
+                                        <button type="button" onClick={handleEliminarFoto} className="boton_eliminar_foto">
+                                            Eliminar Foto
+                                        </button>
+                                    )}
+                                </div>
+                            </div>
+
                             <div className="grupo_entrada">
                                 <label>Nombre</label>
                                 <input type="text" value={editNombre} onChange={(e) => setEditNombre(e.target.value)} />

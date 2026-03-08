@@ -35,10 +35,10 @@ function TartasDeFresa() {
 
     function adaptarData(arr) {
         return arr.map(item => ({
-            name: item.producto,
-            desc: item.detalle,
-            price: item.precio,
-            image: item.img || `https://via.placeholder.com/280x200/ffe4eb/b55c70?text=${encodeURIComponent(item.producto)}`
+            ...item,
+            image: item.img_Url || "",
+            price: `₡${item.precio}`,
+            desc: item.detalle
         }));
     }
 

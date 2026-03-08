@@ -241,3 +241,63 @@
     background: #a14b5d;
     transform: translateY(-2px);
 }
+
+/* Nuevos Estilos para Edición de Foto */
+.seccion_foto_modal {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 10px;
+}
+
+.avatar_previsualizacion {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 3px solid #ffdeed;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.controles_foto {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+}
+
+.boton_cambiar_foto {
+    background: white;
+    color: #b55c70;
+    border: 1px solid #ffdeed;
+    padding: 8px 15px;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.boton_cambiar_foto:hover {
+    background: #fff5f8;
+    border-color: #ff9abd;
+}
+
+.boton_eliminar_foto {
+    background: #fff0f0;
+    color: #ff4d4d;
+    border: 1px solid #ffdada;
+    padding: 8px 15px;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.boton_eliminar_foto:hover {
+    background: #ffe5e5;
+    border-color: #ffb3b3;
+}
